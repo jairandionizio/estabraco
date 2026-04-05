@@ -1,1261 +1,2941 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Prof. Jairan Dionizio — Hub Estatístico</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700;900&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prof. Jairan Dionizio — Hub Estatístico</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700;900&family=IBM+Plex+Mono:wght@300;400;500&display=swap"
+    rel="stylesheet">
 
-<style>
-:root {
-  --bg: #050810;
-  --bg2: #080d1a;
-  --surface: #0d1424;
-  --surface2: #111a2e;
-  --border: rgba(99,179,237,0.12);
-  --cyan: #38bdf8;
-  --electric: #00f5ff;
-  --neon: #a3e635;
-  --amber: #fbbf24;
-  --rose: #fb7185;
-  --violet: #a78bfa;
-  --text: #e2e8f5;
-  --muted: #64748b;
-  --dim: #334155;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden;cursor:none}
+  <style>
+    :root {
+      --bg: #050810;
+      --bg2: #080d1a;
+      --surface: #0d1424;
+      --surface2: #111a2e;
+      --border: rgba(99, 179, 237, 0.12);
+      --cyan: #38bdf8;
+      --electric: #00f5ff;
+      --neon: #a3e635;
+      --amber: #fbbf24;
+      --rose: #fb7185;
+      --violet: #a78bfa;
+      --text: #e2e8f5;
+      --muted: #64748b;
+      --dim: #334155;
+    }
 
-#cur{width:8px;height:8px;background:var(--electric);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen}
-#cur2{width:32px;height:32px;border:1px solid rgba(0,245,255,.4);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
 
-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:1.2rem 3.5rem;display:flex;align-items:center;justify-content:space-between;transition:background .4s}
-nav.scrolled{background:rgba(5,8,16,.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
-.logo{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:.6rem}
-.logo-icon{width:32px;height:32px;border:1.5px solid var(--cyan);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--cyan)}
-.nav-links{display:flex;gap:2.5rem;list-style:none}
-.nav-links a{font-size:.72rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
-.nav-links a:hover{color:var(--electric)}
-.nav-btn{background:transparent;border:1px solid rgba(0,245,255,.35);color:var(--electric);font-family:'Outfit',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.5rem 1.3rem;cursor:none;text-decoration:none;transition:background .2s,color .2s}
-.nav-btn:hover{background:var(--electric);color:var(--bg)}
+    html {
+      scroll-behavior: smooth
+    }
 
-.hero{min-height:100vh;position:relative;display:flex;align-items:center;overflow:hidden}
-#heroCanvas{position:absolute;inset:0;width:100%;height:100%}
-.hero-content{position:relative;z-index:10;padding:0 4rem;max-width:900px}
-.hero-badge{display:inline-flex;align-items:center;gap:.6rem;background:rgba(0,245,255,.06);border:1px solid rgba(0,245,255,.2);padding:.4rem 1rem;font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--electric);letter-spacing:.15em;text-transform:uppercase;margin-bottom:2rem;opacity:0;animation:slideIn .8s .2s forwards}
-.hero-badge::before{content:'';width:6px;height:6px;background:var(--electric);border-radius:50%;animation:pulse 2s infinite}
-.hero-h1{font-family:'DM Serif Display',serif;font-size:clamp(3rem,7vw,7rem);line-height:.95;color:var(--text);margin-bottom:1.5rem;opacity:0;animation:slideIn 1s .4s forwards}
-.hero-h1 .italic{font-style:italic;color:var(--cyan)}
-.hero-h1 .accent{color:var(--electric)}
-.hero-sub{font-family:'IBM Plex Mono',monospace;font-size:.9rem;font-weight:300;color:var(--muted);line-height:1.8;max-width:50ch;margin-bottom:3rem;opacity:0;animation:slideIn 1s .6s forwards}
-.hero-sub em{color:var(--neon);font-style:normal}
-.hero-actions{display:flex;gap:1rem;align-items:center;opacity:0;animation:slideIn 1s .8s forwards}
-.btn-glow{background:var(--electric);color:var(--bg);font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.9rem 2rem;text-decoration:none;transition:transform .2s,box-shadow .2s}
-.btn-glow:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(0,245,255,.4)}
-.btn-outline{color:var(--text);font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:500;text-decoration:none;border-bottom:1px solid var(--dim);padding-bottom:2px;transition:color .2s,border-color .2s}
-.btn-outline:hover{color:var(--electric);border-color:var(--electric)}
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      overflow-x: hidden;
+      cursor: none
+    }
 
-.hero-stats{position:absolute;right:4rem;bottom:6rem;display:flex;flex-direction:column;gap:1rem;z-index:10;opacity:0;animation:fadeIn 1s 1.2s forwards}
-.hstat{display:flex;align-items:center;gap:1rem;background:rgba(13,20,36,.85);border:1px solid var(--border);padding:1rem 1.5rem;backdrop-filter:blur(10px)}
-.hstat-bar{width:3px;height:40px;background:linear-gradient(180deg,var(--electric),transparent)}
-.hstat-num{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--electric);line-height:1}
-.hstat-num.v{color:var(--violet)}
-.hstat-info{font-family:'IBM Plex Mono',monospace;font-size:.6rem;font-weight:300;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+    #cur {
+      width: 8px;
+      height: 8px;
+      background: var(--electric);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      mix-blend-mode: screen
+    }
 
-.scroll-ind{position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;opacity:0;animation:fadeIn 1s 1.5s forwards}
-.scroll-dot{width:1px;height:50px;background:linear-gradient(180deg,var(--electric),transparent);animation:scrollAnim 2s infinite}
-.scroll-label{font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--muted);letter-spacing:.2em;text-transform:uppercase}
+    #cur2 {
+      width: 32px;
+      height: 32px;
+      border: 1px solid rgba(0, 245, 255, .4);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width .2s, height .2s, border-color .2s
+    }
 
-.viz-banner{background:var(--bg2);padding:2rem 0;overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative}
-.viz-banner::before,.viz-banner::after{content:'';position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none}
-.viz-banner::before{left:0;background:linear-gradient(90deg,var(--bg2),transparent)}
-.viz-banner::after{right:0;background:linear-gradient(-90deg,var(--bg2),transparent)}
-.ticker-wrap{display:flex;white-space:nowrap;animation:ticker 30s linear infinite}
-.ticker-item{display:inline-flex;align-items:center;gap:.8rem;padding:0 3rem;font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:300;color:var(--muted);border-right:1px solid var(--border);flex-shrink:0}
-.ticker-val{color:var(--neon);font-weight:500}
-.up{color:var(--neon)}
-.dn{color:var(--rose)}
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      padding: 1.2rem 3.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background .4s
+    }
 
-section{padding:8rem 4rem;position:relative}
-.s-label{font-family:'IBM Plex Mono',monospace;font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--electric);margin-bottom:1.2rem;display:flex;align-items:center;gap:1rem}
-.s-label::before{content:'';width:32px;height:1px;background:var(--electric)}
-.s-h2{font-family:'DM Serif Display',serif;font-size:clamp(2.4rem,4.5vw,4rem);line-height:1.05;color:var(--text);margin-bottom:1rem}
-.s-h2 em{color:var(--cyan);font-style:italic}
-.s-p{font-family:'IBM Plex Mono',monospace;font-size:.82rem;font-weight:300;color:var(--muted);line-height:1.9;max-width:55ch}
+    nav.scrolled {
+      background: rgba(5, 8, 16, .88);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border)
+    }
 
-.charts-section{background:var(--bg)}
-.charts-header{max-width:600px;margin-bottom:5rem}
-.charts-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px}
-.chart-card{background:var(--surface);border:1px solid var(--border);padding:2rem;position:relative;overflow:hidden;transition:border-color .3s,transform .3s}
-.chart-card:hover{border-color:var(--cyan);transform:translateY(-4px)}
-.chart-card.wide{grid-column:span 2}
-.chart-card.tall{grid-row:span 2}
-.cc-label{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--electric);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
-.cc-label::before{content:'▶';font-size:.5rem;opacity:.5}
-.cc-title{font-family:'Outfit',sans-serif;font-size:1rem;font-weight:600;color:var(--text);margin-bottom:.3rem}
-.cc-sub{font-family:'IBM Plex Mono',monospace;font-size:.65rem;font-weight:300;color:var(--muted);margin-bottom:1.5rem}
-canvas.viz{width:100%;display:block}
+    .logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem;
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: .6rem
+    }
 
-.glow-line{height:1px;background:linear-gradient(90deg,transparent,var(--electric),var(--violet),var(--cyan),transparent);opacity:.4;margin:0 4rem}
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      border: 1.5px solid var(--cyan);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .8rem;
+      color: var(--cyan)
+    }
 
-.hub-section{background:var(--bg2)}
-.hub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:5rem}
-.hub-card{background:var(--surface);border:1px solid var(--border);padding:2.8rem 2.4rem;position:relative;overflow:hidden;text-decoration:none;color:inherit;display:block;cursor:none;transition:border-color .3s,transform .25s}
-.hub-card:hover{border-color:var(--cyan);transform:translateY(-3px)}
-.hub-card-glow{position:absolute;top:-60px;right:-60px;width:160px;height:160px;border-radius:50%;filter:blur(55px);opacity:0;transition:opacity .4s}
-.hub-card:hover .hub-card-glow{opacity:.18}
-.hc-num{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:300;color:var(--dim);letter-spacing:.2em;margin-bottom:1.5rem}
-.hc-icon{font-size:1.4rem;margin-bottom:1.2rem;display:block}
-.hc-title{font-family:'Outfit',sans-serif;font-size:1.15rem;font-weight:700;color:var(--text);margin-bottom:.7rem;transition:color .3s}
-.hub-card:hover .hc-title{color:var(--electric)}
-.hc-desc{font-family:'IBM Plex Mono',monospace;font-size:.7rem;font-weight:300;color:var(--muted);line-height:1.75}
-.hc-arrow{position:absolute;bottom:2rem;right:2rem;color:var(--dim);font-size:1rem;transition:color .3s,transform .3s}
-.hub-card:hover .hc-arrow{color:var(--electric);transform:translate(4px,-4px)}
-.hc-tag{display:inline-block;margin-top:1.2rem;font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;padding:.3rem .7rem;border-radius:99px;text-transform:uppercase}
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none
+    }
 
-.about-section{background:var(--bg);display:grid;grid-template-columns:1fr 1fr}
-.about-left{padding:8rem 4rem;position:relative}
-.about-left::after{content:'';position:absolute;top:10%;right:0;width:1px;height:80%;background:linear-gradient(180deg,transparent,var(--border),transparent)}
-.about-right{padding:8rem 4rem;background:var(--bg2)}
-.about-quote{font-family:'DM Serif Display',serif;font-size:1.4rem;font-style:italic;color:var(--text);line-height:1.5;border-left:2px solid var(--electric);padding-left:1.5rem;margin:2.5rem 0}
-.about-body{font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:300;color:var(--muted);line-height:1.95;margin-bottom:1rem}
-.about-links{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2.5rem}
-.alink{display:inline-flex;align-items:center;gap:.5rem;font-family:'Outfit',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text);text-decoration:none;border:1px solid var(--border);padding:.6rem 1.2rem;transition:background .2s,border-color .2s,color .2s}
-.alink:hover{background:var(--electric);border-color:var(--electric);color:var(--bg)}
-.cred-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:2.5rem}
-.cred{background:var(--surface);border:1px solid var(--border);padding:1.6rem}
-.cred-t{font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:.3rem}
-.cred-s{font-family:'IBM Plex Mono',monospace;font-size:.65rem;font-weight:300;color:var(--muted);line-height:1.5}
-.about-right .s-label{color:var(--neon)}
-.about-right .s-label::before{background:var(--neon)}
+    .nav-links a {
+      font-size: .72rem;
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s
+    }
 
-.estab-section{background:var(--surface2);padding:6rem 4rem;position:relative;overflow:hidden}
-.estab-bg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'DM Serif Display',serif;font-size:clamp(5rem,15vw,18rem);color:rgba(255,255,255,.02);white-space:nowrap;pointer-events:none;user-select:none}
-.estab-inner{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;position:relative;z-index:1}
-.estab-title{font-family:'DM Serif Display',serif;font-size:clamp(2.5rem,5vw,5rem);color:var(--text);line-height:1}
-.estab-title em{color:var(--amber);font-style:italic}
-.estab-body{font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:300;color:var(--muted);line-height:1.9;margin:1.5rem 0 2.5rem}
-.estab-cta{display:inline-flex;align-items:center;gap:.8rem;background:transparent;border:1px solid var(--amber);color:var(--amber);font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.9rem 2rem;text-decoration:none;transition:background .2s,color .2s}
-.estab-cta:hover{background:var(--amber);color:var(--bg)}
-.estab-pills{display:flex;flex-direction:column;gap:1rem}
-.epill{display:flex;align-items:center;gap:1.2rem;background:var(--surface);border:1px solid var(--border);padding:1.2rem 1.6rem;transition:border-color .3s,transform .3s}
-.epill:hover{border-color:var(--amber);transform:translateX(8px)}
-.epill-icon{font-size:1rem;width:36px;text-align:center;color:var(--amber)}
-.epill-text{font-family:'IBM Plex Mono',monospace;font-size:.72rem;font-weight:300;color:var(--text)}
-.estab-section .s-label{color:var(--amber)}
-.estab-section .s-label::before{background:var(--amber)}
+    .nav-links a:hover {
+      color: var(--electric)
+    }
 
-.res-section{background:var(--bg)}
-.res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:4rem}
-.res-col-head{background:var(--surface);border:1px solid var(--border);padding:1.5rem 2rem;font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:.8rem}
-.res-item{display:flex;align-items:flex-start;gap:1rem;padding:1.4rem 2rem;background:var(--surface2);border-bottom:1px solid var(--border);text-decoration:none;transition:background .2s,padding-left .2s}
-.res-item:hover{background:var(--surface);padding-left:2.8rem}
-.ri-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:.35rem}
-.ri-name{font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:.2rem;transition:color .2s}
-.ri-desc{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:300;color:var(--muted);line-height:1.5}
-.res-item:hover .ri-name{color:var(--electric)}
+    .nav-btn {
+      background: transparent;
+      border: 1px solid rgba(0, 245, 255, .35);
+      color: var(--electric);
+      font-family: 'Outfit', sans-serif;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .5rem 1.3rem;
+      cursor: none;
+      text-decoration: none;
+      transition: background .2s, color .2s
+    }
 
-footer{background:var(--bg2);padding:5rem 4rem 3rem;border-top:1px solid var(--border)}
-.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:4rem;margin-bottom:4rem}
-.footer-brand{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--text);margin-bottom:1rem}
-.footer-brand span{color:var(--electric)}
-.footer-tag{font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:300;color:var(--muted);line-height:1.7}
-.footer-social{display:flex;gap:.8rem;margin-top:2rem}
-.si{width:40px;height:40px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.85rem;text-decoration:none;transition:border-color .2s,color .2s,background .2s}
-.si:hover{border-color:var(--electric);color:var(--electric);background:rgba(0,245,255,.06)}
-.footer-col h4{font-family:'Outfit',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:1.5rem}
-.footer-col ul{list-style:none}
-.footer-col li{margin-bottom:.7rem}
-.footer-col a{font-family:'IBM Plex Mono',monospace;font-size:.7rem;font-weight:300;color:var(--muted);text-decoration:none;transition:color .2s}
-.footer-col a:hover{color:var(--electric)}
-.footer-bottom{border-top:1px solid var(--border);padding-top:2.5rem;display:flex;justify-content:space-between;align-items:center}
-.fc{font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--dim)}
+    .nav-btn:hover {
+      background: var(--electric);
+      color: var(--bg)
+    }
 
-@keyframes slideIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
-@keyframes scrollAnim{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
-@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden
+    }
 
-.reveal{opacity:0;transform:translateY(32px);transition:opacity .8s ease,transform .8s ease}
-.reveal.vis{opacity:1;transform:translateY(0)}
-.rd1{transition-delay:.15s}
-.rd2{transition-delay:.3s}
+    #heroCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%
+    }
 
-/* ═══════════════════════════════════════
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      padding: 0 4rem;
+      max-width: 900px
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      background: rgba(0, 245, 255, .06);
+      border: 1px solid rgba(0, 245, 255, .2);
+      padding: .4rem 1rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .65rem;
+      color: var(--electric);
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: slideIn .8s .2s forwards
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--electric);
+      border-radius: 50%;
+      animation: pulse 2s infinite
+    }
+
+    .hero-h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 7vw, 7rem);
+      line-height: .95;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: slideIn 1s .4s forwards
+    }
+
+    .hero-h1 .italic {
+      font-style: italic;
+      color: var(--cyan)
+    }
+
+    .hero-h1 .accent {
+      color: var(--electric)
+    }
+
+    .hero-sub {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .9rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 50ch;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: slideIn 1s .6s forwards
+    }
+
+    .hero-sub em {
+      color: var(--neon);
+      font-style: normal
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      opacity: 0;
+      animation: slideIn 1s .8s forwards
+    }
+
+    .btn-glow {
+      background: var(--electric);
+      color: var(--bg);
+      font-family: 'Outfit', sans-serif;
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: .9rem 2rem;
+      text-decoration: none;
+      transition: transform .2s, box-shadow .2s
+    }
+
+    .btn-glow:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(0, 245, 255, .4)
+    }
+
+    .btn-outline {
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-size: .8rem;
+      font-weight: 500;
+      text-decoration: none;
+      border-bottom: 1px solid var(--dim);
+      padding-bottom: 2px;
+      transition: color .2s, border-color .2s
+    }
+
+    .btn-outline:hover {
+      color: var(--electric);
+      border-color: var(--electric)
+    }
+
+    .hero-stats {
+      position: absolute;
+      right: 4rem;
+      bottom: 6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      z-index: 10;
+      opacity: 0;
+      animation: fadeIn 1s 1.2s forwards
+    }
+
+    .hstat {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(13, 20, 36, .85);
+      border: 1px solid var(--border);
+      padding: 1rem 1.5rem;
+      backdrop-filter: blur(10px)
+    }
+
+    .hstat-bar {
+      width: 3px;
+      height: 40px;
+      background: linear-gradient(180deg, var(--electric), transparent)
+    }
+
+    .hstat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      color: var(--electric);
+      line-height: 1
+    }
+
+    .hstat-num.v {
+      color: var(--violet)
+    }
+
+    .hstat-info {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .6rem;
+      font-weight: 300;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .1em
+    }
+
+    .scroll-ind {
+      position: absolute;
+      bottom: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .5rem;
+      opacity: 0;
+      animation: fadeIn 1s 1.5s forwards
+    }
+
+    .scroll-dot {
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(180deg, var(--electric), transparent);
+      animation: scrollAnim 2s infinite
+    }
+
+    .scroll-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .6rem;
+      color: var(--muted);
+      letter-spacing: .2em;
+      text-transform: uppercase
+    }
+
+    .viz-banner {
+      background: var(--bg2);
+      padding: 2rem 0;
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      position: relative
+    }
+
+    .viz-banner::before,
+    .viz-banner::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 120px;
+      z-index: 2;
+      pointer-events: none
+    }
+
+    .viz-banner::before {
+      left: 0;
+      background: linear-gradient(90deg, var(--bg2), transparent)
+    }
+
+    .viz-banner::after {
+      right: 0;
+      background: linear-gradient(-90deg, var(--bg2), transparent)
+    }
+
+    .ticker-wrap {
+      display: flex;
+      white-space: nowrap;
+      animation: ticker 30s linear infinite
+    }
+
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: .8rem;
+      padding: 0 3rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .68rem;
+      font-weight: 300;
+      color: var(--muted);
+      border-right: 1px solid var(--border);
+      flex-shrink: 0
+    }
+
+    .ticker-val {
+      color: var(--neon);
+      font-weight: 500
+    }
+
+    .up {
+      color: var(--neon)
+    }
+
+    .dn {
+      color: var(--rose)
+    }
+
+    section {
+      padding: 8rem 4rem;
+      position: relative
+    }
+
+    .s-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .65rem;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--electric);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem
+    }
+
+    .s-label::before {
+      content: '';
+      width: 32px;
+      height: 1px;
+      background: var(--electric)
+    }
+
+    .s-h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.4rem, 4.5vw, 4rem);
+      line-height: 1.05;
+      color: var(--text);
+      margin-bottom: 1rem
+    }
+
+    .s-h2 em {
+      color: var(--cyan);
+      font-style: italic
+    }
+
+    .s-p {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .82rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.9;
+      max-width: 55ch
+    }
+
+    .charts-section {
+      background: var(--bg)
+    }
+
+    .charts-header {
+      max-width: 600px;
+      margin-bottom: 5rem
+    }
+
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2px
+    }
+
+    .chart-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color .3s, transform .3s
+    }
+
+    .chart-card:hover {
+      border-color: var(--cyan);
+      transform: translateY(-4px)
+    }
+
+    .chart-card.wide {
+      grid-column: span 2
+    }
+
+    .chart-card.tall {
+      grid-row: span 2
+    }
+
+    .cc-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .6rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--electric);
+      margin-bottom: .5rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem
+    }
+
+    .cc-label::before {
+      content: '▶';
+      font-size: .5rem;
+      opacity: .5
+    }
+
+    .cc-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: .3rem
+    }
+
+    .cc-sub {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .65rem;
+      font-weight: 300;
+      color: var(--muted);
+      margin-bottom: 1.5rem
+    }
+
+    canvas.viz {
+      width: 100%;
+      display: block
+    }
+
+    .glow-line {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--electric), var(--violet), var(--cyan), transparent);
+      opacity: .4;
+      margin: 0 4rem
+    }
+
+    .hub-section {
+      background: var(--bg2)
+    }
+
+    .hub-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 5rem
+    }
+
+    .hub-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 2.8rem 2.4rem;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      cursor: none;
+      transition: border-color .3s, transform .25s
+    }
+
+    .hub-card:hover {
+      border-color: var(--cyan);
+      transform: translateY(-3px)
+    }
+
+    .hub-card-glow {
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      filter: blur(55px);
+      opacity: 0;
+      transition: opacity .4s
+    }
+
+    .hub-card:hover .hub-card-glow {
+      opacity: .18
+    }
+
+    .hc-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .62rem;
+      font-weight: 300;
+      color: var(--dim);
+      letter-spacing: .2em;
+      margin-bottom: 1.5rem
+    }
+
+    .hc-icon {
+      font-size: 1.4rem;
+      margin-bottom: 1.2rem;
+      display: block
+    }
+
+    .hc-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: .7rem;
+      transition: color .3s
+    }
+
+    .hub-card:hover .hc-title {
+      color: var(--electric)
+    }
+
+    .hc-desc {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .7rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.75
+    }
+
+    .hc-arrow {
+      position: absolute;
+      bottom: 2rem;
+      right: 2rem;
+      color: var(--dim);
+      font-size: 1rem;
+      transition: color .3s, transform .3s
+    }
+
+    .hub-card:hover .hc-arrow {
+      color: var(--electric);
+      transform: translate(4px, -4px)
+    }
+
+    .hc-tag {
+      display: inline-block;
+      margin-top: 1.2rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .58rem;
+      letter-spacing: .12em;
+      padding: .3rem .7rem;
+      border-radius: 99px;
+      text-transform: uppercase
+    }
+
+    .about-section {
+      background: var(--bg);
+      display: grid;
+      grid-template-columns: 1fr 1fr
+    }
+
+    .about-left {
+      padding: 8rem 4rem;
+      position: relative
+    }
+
+    .about-left::after {
+      content: '';
+      position: absolute;
+      top: 10%;
+      right: 0;
+      width: 1px;
+      height: 80%;
+      background: linear-gradient(180deg, transparent, var(--border), transparent)
+    }
+
+    .about-right {
+      padding: 8rem 4rem;
+      background: var(--bg2)
+    }
+
+    .about-quote {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.4rem;
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.5;
+      border-left: 2px solid var(--electric);
+      padding-left: 1.5rem;
+      margin: 2.5rem 0
+    }
+
+    .about-body {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .78rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.95;
+      margin-bottom: 1rem
+    }
+
+    .about-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .8rem;
+      margin-top: 2.5rem
+    }
+
+    .alink {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: .6rem 1.2rem;
+      transition: background .2s, border-color .2s, color .2s
+    }
+
+    .alink:hover {
+      background: var(--electric);
+      border-color: var(--electric);
+      color: var(--bg)
+    }
+
+    .cred-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      margin-top: 2.5rem
+    }
+
+    .cred {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.6rem
+    }
+
+    .cred-t {
+      font-family: 'Outfit', sans-serif;
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: .3rem
+    }
+
+    .cred-s {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .65rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.5
+    }
+
+    .about-right .s-label {
+      color: var(--neon)
+    }
+
+    .about-right .s-label::before {
+      background: var(--neon)
+    }
+
+    .estab-section {
+      background: var(--surface2);
+      padding: 6rem 4rem;
+      position: relative;
+      overflow: hidden
+    }
+
+    .estab-bg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(5rem, 15vw, 18rem);
+      color: rgba(255, 255, 255, .02);
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none
+    }
+
+    .estab-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+      position: relative;
+      z-index: 1
+    }
+
+    .estab-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.5rem, 5vw, 5rem);
+      color: var(--text);
+      line-height: 1
+    }
+
+    .estab-title em {
+      color: var(--amber);
+      font-style: italic
+    }
+
+    .estab-body {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .78rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.9;
+      margin: 1.5rem 0 2.5rem
+    }
+
+    .estab-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: .8rem;
+      background: transparent;
+      border: 1px solid var(--amber);
+      color: var(--amber);
+      font-family: 'Outfit', sans-serif;
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .9rem 2rem;
+      text-decoration: none;
+      transition: background .2s, color .2s
+    }
+
+    .estab-cta:hover {
+      background: var(--amber);
+      color: var(--bg)
+    }
+
+    .estab-pills {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem
+    }
+
+    .epill {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.2rem 1.6rem;
+      transition: border-color .3s, transform .3s
+    }
+
+    .epill:hover {
+      border-color: var(--amber);
+      transform: translateX(8px)
+    }
+
+    .epill-icon {
+      font-size: 1rem;
+      width: 36px;
+      text-align: center;
+      color: var(--amber)
+    }
+
+    .epill-text {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .72rem;
+      font-weight: 300;
+      color: var(--text)
+    }
+
+    .estab-section .s-label {
+      color: var(--amber)
+    }
+
+    .estab-section .s-label::before {
+      background: var(--amber)
+    }
+
+    .res-section {
+      background: var(--bg)
+    }
+
+    .res-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 4rem
+    }
+
+    .res-col-head {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: .8rem
+    }
+
+    .res-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.4rem 2rem;
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      transition: background .2s, padding-left .2s
+    }
+
+    .res-item:hover {
+      background: var(--surface);
+      padding-left: 2.8rem
+    }
+
+    .ri-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: .35rem
+    }
+
+    .ri-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: .2rem;
+      transition: color .2s
+    }
+
+    .ri-desc {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .62rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.5
+    }
+
+    .res-item:hover .ri-name {
+      color: var(--electric)
+    }
+
+    footer {
+      background: var(--bg2);
+      padding: 5rem 4rem 3rem;
+      border-top: 1px solid var(--border)
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 4rem;
+      margin-bottom: 4rem
+    }
+
+    .footer-brand {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      color: var(--text);
+      margin-bottom: 1rem
+    }
+
+    .footer-brand span {
+      color: var(--electric)
+    }
+
+    .footer-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .68rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.7
+    }
+
+    .footer-social {
+      display: flex;
+      gap: .8rem;
+      margin-top: 2rem
+    }
+
+    .si {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: .85rem;
+      text-decoration: none;
+      transition: border-color .2s, color .2s, background .2s
+    }
+
+    .si:hover {
+      border-color: var(--electric);
+      color: var(--electric);
+      background: rgba(0, 245, 255, .06)
+    }
+
+    .footer-col h4 {
+      font-family: 'Outfit', sans-serif;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 1.5rem
+    }
+
+    .footer-col ul {
+      list-style: none
+    }
+
+    .footer-col li {
+      margin-bottom: .7rem
+    }
+
+    .footer-col a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .7rem;
+      font-weight: 300;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s
+    }
+
+    .footer-col a:hover {
+      color: var(--electric)
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center
+    }
+
+    .fc {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .62rem;
+      color: var(--dim)
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(24px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0
+      }
+
+      to {
+        opacity: 1
+      }
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1)
+      }
+
+      50% {
+        opacity: .5;
+        transform: scale(.7)
+      }
+    }
+
+    @keyframes scrollAnim {
+      0% {
+        transform: scaleY(0);
+        transform-origin: top
+      }
+
+      50% {
+        transform: scaleY(1);
+        transform-origin: top
+      }
+
+      51% {
+        transform: scaleY(1);
+        transform-origin: bottom
+      }
+
+      100% {
+        transform: scaleY(0);
+        transform-origin: bottom
+      }
+    }
+
+    @keyframes ticker {
+      0% {
+        transform: translateX(0)
+      }
+
+      100% {
+        transform: translateX(-50%)
+      }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity .8s ease, transform .8s ease
+    }
+
+    .reveal.vis {
+      opacity: 1;
+      transform: translateY(0)
+    }
+
+    .rd1 {
+      transition-delay: .15s
+    }
+
+    .rd2 {
+      transition-delay: .3s
+    }
+
+    /* ═══════════════════════════════════════
    STRAT.CG SECTION
 ═══════════════════════════════════════ */
-.stratcg-hero{
-  background:var(--bg);
-  position:relative;
-  overflow:hidden;
-  padding:0;
-  min-height:100vh;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-}
-.stratcg-hero::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse at 30% 50%,rgba(124,58,237,.18) 0%,transparent 60%),
-             radial-gradient(ellipse at 80% 20%,rgba(56,189,248,.1) 0%,transparent 55%);
-  pointer-events:none;z-index:0;
-}
-.sg-hero-left{
-  position:relative;z-index:2;
-  display:flex;flex-direction:column;justify-content:flex-end;
-  padding:8rem 4rem 6rem;
-}
-.sg-logo-badge{
-  display:inline-flex;align-items:center;gap:.8rem;
-  background:rgba(124,58,237,.1);
-  border:1px solid rgba(124,58,237,.3);
-  padding:.5rem 1.2rem;
-  font-family:'IBM Plex Mono',monospace;font-size:.65rem;
-  color:var(--violet);letter-spacing:.15em;text-transform:uppercase;
-  margin-bottom:2rem;width:fit-content;
-}
-.sg-logo-badge::before{content:'';width:8px;height:8px;background:var(--violet);border-radius:50%;animation:pulse 2s infinite}
-.sg-hero-title{
-  font-family:'DM Serif Display',serif;
-  font-size:clamp(2.8rem,6vw,6rem);
-  line-height:.92;color:var(--text);
-  margin-bottom:1.5rem;
-}
-.sg-hero-title .vi{color:var(--violet);font-style:italic}
-.sg-hero-desc{
-  font-family:'IBM Plex Mono',monospace;font-size:.82rem;font-weight:300;
-  color:var(--muted);line-height:1.85;max-width:48ch;margin-bottom:2.5rem;
-}
-.sg-hero-desc strong{color:var(--text);font-weight:400}
-.sg-hero-ctas{display:flex;gap:1rem;flex-wrap:wrap}
-.btn-violet{
-  background:var(--violet);color:var(--bg);
-  font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:700;
-  letter-spacing:.08em;text-transform:uppercase;
-  padding:.9rem 2rem;text-decoration:none;
-  transition:transform .2s,box-shadow .2s;
-}
-.btn-violet:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(167,139,250,.45)}
-.btn-violet-outline{
-  border:1px solid rgba(167,139,250,.4);color:var(--violet);
-  font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:600;
-  letter-spacing:.08em;text-transform:uppercase;
-  padding:.9rem 2rem;text-decoration:none;
-  transition:background .2s,color .2s;
-}
-.btn-violet-outline:hover{background:rgba(167,139,250,.1)}
-.sg-hero-right{
-  position:relative;overflow:hidden;
-}
-.sg-hero-img{
-  width:100%;height:100%;object-fit:cover;object-position:center top;
-  filter:brightness(.85) saturate(1.1);
-}
-.sg-hero-right::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(90deg,var(--bg) 0%,transparent 30%),
-             linear-gradient(180deg,transparent 60%,var(--bg) 100%);
-}
-.sg-pillars{
-  position:absolute;bottom:2rem;right:2rem;left:auto;
-  display:grid;grid-template-columns:1fr 1fr;gap:2px;width:340px;
-  z-index:10;
-}
-.sg-pillar{
-  background:rgba(8,13,26,.85);
-  border:1px solid rgba(124,58,237,.2);
-  backdrop-filter:blur(10px);
-  padding:1rem 1.2rem;
-}
-.sg-pillar-icon{font-size:.9rem;margin-bottom:.4rem;display:block}
-.sg-pillar-t{font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:600;color:var(--text);margin-bottom:.2rem}
-.sg-pillar-s{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:300;color:var(--muted);line-height:1.4}
+    .stratcg-hero {
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+      padding: 0;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
 
-/* STRAT.CG sections */
-.sg-section{padding:7rem 4rem;background:var(--bg2)}
-.sg-section.alt{background:var(--bg)}
-.sg-section.dark{background:var(--surface2)}
-.sg-label{font-family:'IBM Plex Mono',monospace;font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--violet);margin-bottom:1rem;display:flex;align-items:center;gap:1rem}
-.sg-label::before{content:'';width:32px;height:1px;background:var(--violet)}
-.sg-h2{font-family:'DM Serif Display',serif;font-size:clamp(2rem,4vw,3.5rem);line-height:1.05;color:var(--text);margin-bottom:1rem}
-.sg-h2 em{color:var(--violet);font-style:italic}
-.sg-p{font-family:'IBM Plex Mono',monospace;font-size:.82rem;font-weight:300;color:var(--muted);line-height:1.9;max-width:60ch}
+    .stratcg-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(124, 58, 237, .18) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(56, 189, 248, .1) 0%, transparent 55%);
+      pointer-events: none;
+      z-index: 0;
+    }
 
-/* About split */
-.sg-about{background:var(--bg);display:grid;grid-template-columns:1fr 1fr;padding:0}
-.sg-about-left{padding:7rem 4rem;background:var(--surface)}
-.sg-about-left::after{content:'';display:none}
-.sg-about-right{padding:7rem 4rem}
-.sg-photo{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top;filter:brightness(.9) saturate(1.1);margin-bottom:2rem}
-.sg-about-name{font-family:'DM Serif Display',serif;font-size:1.8rem;color:var(--text);margin-bottom:.3rem}
-.sg-about-role{font-family:'IBM Plex Mono',monospace;font-size:.7rem;font-weight:400;color:var(--violet);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.5rem}
-.sg-about-body{font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:300;color:var(--muted);line-height:1.9;margin-bottom:1rem}
-.sg-about-body strong{color:var(--text);font-weight:400}
-.sg-about-quote{
-  font-family:'DM Serif Display',serif;font-style:italic;font-size:1.15rem;
-  color:var(--text);line-height:1.6;
-  border-left:2px solid var(--violet);padding-left:1.5rem;
-  margin:2rem 0;
-}
+    .sg-hero-left {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 8rem 4rem 6rem;
+    }
 
-/* Capabilities (Sensing/Seizing/Transforming) */
-.sg-caps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-top:4rem}
-.sg-cap{
-  background:var(--surface);border:1px solid var(--border);
-  padding:3rem 2.5rem;position:relative;overflow:hidden;
-  cursor:default;transition:border-color .3s,transform .25s;
-}
-.sg-cap:hover{border-color:var(--violet);transform:translateY(-4px)}
-.sg-cap::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,var(--violet),transparent);
-  opacity:0;transition:opacity .3s;
-}
-.sg-cap:hover::before{opacity:1}
-.sg-cap-num{font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--dim);letter-spacing:.2em;margin-bottom:1.2rem}
-.sg-cap-icon{font-size:1.8rem;margin-bottom:1rem;display:block}
-.sg-cap-title{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:.3rem;font-style:italic}
-.sg-cap-sub{font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:600;color:var(--violet);letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem}
-.sg-cap-body{font-family:'IBM Plex Mono',monospace;font-size:.72rem;font-weight:300;color:var(--muted);line-height:1.75}
+    .sg-logo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .8rem;
+      background: rgba(124, 58, 237, .1);
+      border: 1px solid rgba(124, 58, 237, .3);
+      padding: .5rem 1.2rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .65rem;
+      color: var(--violet);
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      width: fit-content;
+    }
 
-/* Modules */
-.sg-modules{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:4rem}
-.sg-mod{
-  background:var(--surface2);border:1px solid var(--border);
-  padding:2.5rem 2rem;transition:border-color .3s,background .3s;
-}
-.sg-mod:hover{border-color:var(--violet);background:var(--surface)}
-.sg-mod-num{
-  font-family:'DM Serif Display',serif;font-size:3rem;
-  color:rgba(167,139,250,.15);line-height:1;margin-bottom:1rem;
-}
-.sg-mod-title{font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.8rem;line-height:1.3}
-.sg-mod-body{font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:300;color:var(--muted);line-height:1.7}
+    .sg-logo-badge::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--violet);
+      border-radius: 50%;
+      animation: pulse 2s infinite
+    }
 
-/* Deliverables */
-.sg-delivs{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:4rem}
-.sg-deliv{
-  background:var(--surface);border:1px solid var(--border);
-  padding:2.5rem 2rem;transition:border-color .3s,transform .25s;
-}
-.sg-deliv:hover{border-color:rgba(167,139,250,.5);transform:translateY(-3px)}
-.sg-deliv-icon{font-size:1.2rem;margin-bottom:1rem;display:block}
-.sg-deliv-title{font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.6rem}
-.sg-deliv-body{font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:300;color:var(--muted);line-height:1.7}
-.sg-deliv.wide{grid-column:span 1}
+    .sg-hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.8rem, 6vw, 6rem);
+      line-height: .92;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
 
-/* Results */
-.sg-results{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:3rem}
-.sg-result{
-  background:var(--surface2);border:1px solid var(--border);
-  padding:2.5rem;transition:border-color .3s}
-.sg-result:hover{border-color:var(--violet)}
-.sg-result-title{font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:700;color:var(--violet);margin-bottom:.7rem}
-.sg-result-body{font-family:'IBM Plex Mono',monospace;font-size:.72rem;font-weight:300;color:var(--muted);line-height:1.75}
+    .sg-hero-title .vi {
+      color: var(--violet);
+      font-style: italic
+    }
 
-/* CTA strip */
-.sg-cta-strip{
-  background:linear-gradient(135deg,#0d0720 0%,#12063e 50%,#060b1f 100%);
-  border-top:1px solid rgba(167,139,250,.2);
-  border-bottom:1px solid rgba(167,139,250,.2);
-  padding:6rem 4rem;text-align:center;position:relative;overflow:hidden;
-}
-.sg-cta-strip::before{
-  content:'STRAT.CG';
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  font-family:'DM Serif Display',serif;
-  font-size:clamp(5rem,15vw,16rem);
-  color:rgba(167,139,250,.04);
-  white-space:nowrap;pointer-events:none;user-select:none;
-}
-.sg-cta-strip .sg-h2{font-size:clamp(2rem,4vw,3.5rem);position:relative;z-index:1}
-.sg-cta-strip .sg-p{margin:1.5rem auto 3rem;position:relative;z-index:1;max-width:50ch;text-align:center}
-.sg-cta-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative;z-index:1}
+    .sg-hero-desc {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .82rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.85;
+      max-width: 48ch;
+      margin-bottom: 2.5rem;
+    }
 
-/* Diretrizes timeline */
-.sg-timeline{margin-top:4rem;display:flex;flex-direction:column;gap:0}
-.sg-tline-item{
-  display:grid;grid-template-columns:120px 1fr;gap:3rem;
-  padding:2.5rem 0;border-bottom:1px solid var(--border);
-  transition:padding-left .2s;
-}
-.sg-tline-item:hover{padding-left:1rem}
-.sg-tline-item:last-child{border-bottom:none}
-.sg-tline-label{
-  font-family:'DM Serif Display',serif;font-size:2.5rem;
-  color:rgba(167,139,250,.2);line-height:1;
-  align-self:flex-start;padding-top:.2rem;
-  font-style:italic;
-}
-.sg-tline-content{}
-.sg-tline-title{font-family:'Outfit',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:.7rem}
-.sg-tline-body{font-family:'IBM Plex Mono',monospace;font-size:.75rem;font-weight:300;color:var(--muted);line-height:1.8}
+    .sg-hero-desc strong {
+      color: var(--text);
+      font-weight: 400
+    }
 
-/* Gallery slider */
-.sg-gallery{margin-top:4rem;display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
-.sg-gallery-img{
-  aspect-ratio:3/4;object-fit:cover;width:100%;
-  filter:brightness(.8) saturate(1.1);
-  transition:filter .3s,transform .3s;cursor:none;
-}
-.sg-gallery-img:hover{filter:brightness(1) saturate(1.2);transform:scale(1.02)}
-.sg-gallery-item{overflow:hidden;position:relative}
-.sg-gallery-item::after{
-  content:attr(data-caption);
-  position:absolute;bottom:0;left:0;right:0;
-  background:linear-gradient(transparent,rgba(5,8,16,.92));
-  color:var(--muted);
-  font-family:'IBM Plex Mono',monospace;font-size:.62rem;
-  padding:1.5rem 1rem .8rem;
-  opacity:0;transition:opacity .3s;
-}
-.sg-gallery-item:hover::after{opacity:1}
+    .sg-hero-ctas {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap
+    }
 
-@media(max-width:960px){
-  nav{padding:1rem 1.5rem}
-  .nav-links{display:none}
-  section{padding:5rem 1.5rem}
-  .charts-grid,.hub-grid,.res-grid,.footer-top{grid-template-columns:1fr}
-  .chart-card.wide,.chart-card.tall{grid-column:span 1;grid-row:span 1}
-  .about-section{grid-template-columns:1fr}
-  .about-left,.about-right{padding:5rem 2rem}
-  .estab-inner{grid-template-columns:1fr;gap:3rem}
-  .sg-section,.sg-cta-strip{padding:5rem 2rem}
-  .stratcg-hero{grid-template-columns:1fr;min-height:auto}
-  .sg-hero-left{padding:8rem 2rem 4rem}
-  .sg-hero-right{min-height:50vw}
-  .sg-about{grid-template-columns:1fr}
-  .sg-about-left,.sg-about-right{padding:4rem 2rem}
-  .sg-caps,.sg-modules,.sg-results,.sg-gallery{grid-template-columns:1fr}
-  .sg-delivs{grid-template-columns:1fr}
-  .sg-pillars{display:none}
-  .sg-tline-item{grid-template-columns:1fr}
-  .sg-tline-label{font-size:1.5rem}
-  .hero-stats{display:none}
-  .estab-section,.res-section{padding:5rem 2rem}
-  footer{padding:3rem 2rem}
-  .footer-bottom{flex-direction:column;gap:1rem;text-align:center}
-  body,a,button{cursor:auto}
-  #cur,#cur2{display:none}
-}
-</style>
+    .btn-violet {
+      background: var(--violet);
+      color: var(--bg);
+      font-family: 'Outfit', sans-serif;
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: .9rem 2rem;
+      text-decoration: none;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .btn-violet:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(167, 139, 250, .45)
+    }
+
+    .btn-violet-outline {
+      border: 1px solid rgba(167, 139, 250, .4);
+      color: var(--violet);
+      font-family: 'Outfit', sans-serif;
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: .9rem 2rem;
+      text-decoration: none;
+      transition: background .2s, color .2s;
+    }
+
+    .btn-violet-outline:hover {
+      background: rgba(167, 139, 250, .1)
+    }
+
+    .sg-hero-right {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sg-hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      filter: brightness(.85) saturate(1.1);
+    }
+
+    .sg-hero-right::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, var(--bg) 0%, transparent 30%),
+        linear-gradient(180deg, transparent 60%, var(--bg) 100%);
+    }
+
+    .sg-pillars {
+      position: absolute;
+      bottom: 2rem;
+      right: 2rem;
+      left: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      width: 340px;
+      z-index: 10;
+    }
+
+    .sg-pillar {
+      background: rgba(8, 13, 26, .85);
+      border: 1px solid rgba(124, 58, 237, .2);
+      backdrop-filter: blur(10px);
+      padding: 1rem 1.2rem;
+    }
+
+    .sg-pillar-icon {
+      font-size: .9rem;
+      margin-bottom: .4rem;
+      display: block
+    }
+
+    .sg-pillar-t {
+      font-family: 'Outfit', sans-serif;
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: .2rem
+    }
+
+    .sg-pillar-s {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .62rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.4
+    }
+
+    /* STRAT.CG sections */
+    .sg-section {
+      padding: 7rem 4rem;
+      background: var(--bg2)
+    }
+
+    .sg-section.alt {
+      background: var(--bg)
+    }
+
+    .sg-section.dark {
+      background: var(--surface2)
+    }
+
+    .sg-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .65rem;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--violet);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem
+    }
+
+    .sg-label::before {
+      content: '';
+      width: 32px;
+      height: 1px;
+      background: var(--violet)
+    }
+
+    .sg-h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 1.05;
+      color: var(--text);
+      margin-bottom: 1rem
+    }
+
+    .sg-h2 em {
+      color: var(--violet);
+      font-style: italic
+    }
+
+    .sg-p {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .82rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.9;
+      max-width: 60ch
+    }
+
+    /* About split */
+    .sg-about {
+      background: var(--bg);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 0
+    }
+
+    .sg-about-left {
+      padding: 7rem 4rem;
+      background: var(--surface)
+    }
+
+    .sg-about-left::after {
+      content: '';
+      display: none
+    }
+
+    .sg-about-right {
+      padding: 7rem 4rem
+    }
+
+    .sg-photo {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      object-position: top;
+      filter: brightness(.9) saturate(1.1);
+      margin-bottom: 2rem
+    }
+
+    .sg-about-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.8rem;
+      color: var(--text);
+      margin-bottom: .3rem
+    }
+
+    .sg-about-role {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .7rem;
+      font-weight: 400;
+      color: var(--violet);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem
+    }
+
+    .sg-about-body {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .78rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.9;
+      margin-bottom: 1rem
+    }
+
+    .sg-about-body strong {
+      color: var(--text);
+      font-weight: 400
+    }
+
+    .sg-about-quote {
+      font-family: 'DM Serif Display', serif;
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--text);
+      line-height: 1.6;
+      border-left: 2px solid var(--violet);
+      padding-left: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    /* Capabilities (Sensing/Seizing/Transforming) */
+    .sg-caps {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2px;
+      margin-top: 4rem
+    }
+
+    .sg-cap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+      transition: border-color .3s, transform .25s;
+    }
+
+    .sg-cap:hover {
+      border-color: var(--violet);
+      transform: translateY(-4px)
+    }
+
+    .sg-cap::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--violet), transparent);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    .sg-cap:hover::before {
+      opacity: 1
+    }
+
+    .sg-cap-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .62rem;
+      color: var(--dim);
+      letter-spacing: .2em;
+      margin-bottom: 1.2rem
+    }
+
+    .sg-cap-icon {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      display: block
+    }
+
+    .sg-cap-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.4rem;
+      color: var(--text);
+      margin-bottom: .3rem;
+      font-style: italic
+    }
+
+    .sg-cap-sub {
+      font-family: 'Outfit', sans-serif;
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--violet);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 1rem
+    }
+
+    .sg-cap-body {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .72rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.75
+    }
+
+    /* Modules */
+    .sg-modules {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      margin-top: 4rem
+    }
+
+    .sg-mod {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+      transition: border-color .3s, background .3s;
+    }
+
+    .sg-mod:hover {
+      border-color: var(--violet);
+      background: var(--surface)
+    }
+
+    .sg-mod-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 3rem;
+      color: rgba(167, 139, 250, .15);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .sg-mod-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: .9rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: .8rem;
+      line-height: 1.3
+    }
+
+    .sg-mod-body {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .68rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.7
+    }
+
+    /* Deliverables */
+    .sg-delivs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 4rem
+    }
+
+    .sg-deliv {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+      transition: border-color .3s, transform .25s;
+    }
+
+    .sg-deliv:hover {
+      border-color: rgba(167, 139, 250, .5);
+      transform: translateY(-3px)
+    }
+
+    .sg-deliv-icon {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      display: block
+    }
+
+    .sg-deliv-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: .9rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: .6rem
+    }
+
+    .sg-deliv-body {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .68rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.7
+    }
+
+    .sg-deliv.wide {
+      grid-column: span 1
+    }
+
+    /* Results */
+    .sg-results {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      margin-top: 3rem
+    }
+
+    .sg-result {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 2.5rem;
+      transition: border-color .3s
+    }
+
+    .sg-result:hover {
+      border-color: var(--violet)
+    }
+
+    .sg-result-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: .9rem;
+      font-weight: 700;
+      color: var(--violet);
+      margin-bottom: .7rem
+    }
+
+    .sg-result-body {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .72rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.75
+    }
+
+    /* CTA strip */
+    .sg-cta-strip {
+      background: linear-gradient(135deg, #0d0720 0%, #12063e 50%, #060b1f 100%);
+      border-top: 1px solid rgba(167, 139, 250, .2);
+      border-bottom: 1px solid rgba(167, 139, 250, .2);
+      padding: 6rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sg-cta-strip::before {
+      content: 'STRAT.CG';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(5rem, 15vw, 16rem);
+      color: rgba(167, 139, 250, .04);
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .sg-cta-strip .sg-h2 {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      position: relative;
+      z-index: 1
+    }
+
+    .sg-cta-strip .sg-p {
+      margin: 1.5rem auto 3rem;
+      position: relative;
+      z-index: 1;
+      max-width: 50ch;
+      text-align: center
+    }
+
+    .sg-cta-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1
+    }
+
+    /* Diretrizes timeline */
+    .sg-timeline {
+      margin-top: 4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0
+    }
+
+    .sg-tline-item {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 3rem;
+      padding: 2.5rem 0;
+      border-bottom: 1px solid var(--border);
+      transition: padding-left .2s;
+    }
+
+    .sg-tline-item:hover {
+      padding-left: 1rem
+    }
+
+    .sg-tline-item:last-child {
+      border-bottom: none
+    }
+
+    .sg-tline-label {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.5rem;
+      color: rgba(167, 139, 250, .2);
+      line-height: 1;
+      align-self: flex-start;
+      padding-top: .2rem;
+      font-style: italic;
+    }
+
+    .sg-tline-content {}
+
+    .sg-tline-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: .7rem
+    }
+
+    .sg-tline-body {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .75rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.8
+    }
+
+    /* Gallery slider */
+    .sg-gallery {
+      margin-top: 4rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px
+    }
+
+    .sg-gallery-img {
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      width: 100%;
+      filter: brightness(.8) saturate(1.1);
+      transition: filter .3s, transform .3s;
+      cursor: none;
+    }
+
+    .sg-gallery-img:hover {
+      filter: brightness(1) saturate(1.2);
+      transform: scale(1.02)
+    }
+
+    .sg-gallery-item {
+      overflow: hidden;
+      position: relative
+    }
+
+    .sg-gallery-item::after {
+      content: attr(data-caption);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(5, 8, 16, .92));
+      color: var(--muted);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .62rem;
+      padding: 1.5rem 1rem .8rem;
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    .sg-gallery-item:hover::after {
+      opacity: 1
+    }
+
+    @media(max-width:960px) {
+      nav {
+        padding: 1rem 1.5rem
+      }
+
+      .nav-links {
+        display: none
+      }
+
+      section {
+        padding: 5rem 1.5rem
+      }
+
+      .charts-grid,
+      .hub-grid,
+      .res-grid,
+      .footer-top {
+        grid-template-columns: 1fr
+      }
+
+      .chart-card.wide,
+      .chart-card.tall {
+        grid-column: span 1;
+        grid-row: span 1
+      }
+
+      .about-section {
+        grid-template-columns: 1fr
+      }
+
+      .about-left,
+      .about-right {
+        padding: 5rem 2rem
+      }
+
+      .estab-inner {
+        grid-template-columns: 1fr;
+        gap: 3rem
+      }
+
+      .sg-section,
+      .sg-cta-strip {
+        padding: 5rem 2rem
+      }
+
+      .stratcg-hero {
+        grid-template-columns: 1fr;
+        min-height: auto
+      }
+
+      .sg-hero-left {
+        padding: 8rem 2rem 4rem
+      }
+
+      .sg-hero-right {
+        min-height: 50vw
+      }
+
+      .sg-about {
+        grid-template-columns: 1fr
+      }
+
+      .sg-about-left,
+      .sg-about-right {
+        padding: 4rem 2rem
+      }
+
+      .sg-caps,
+      .sg-modules,
+      .sg-results,
+      .sg-gallery {
+        grid-template-columns: 1fr
+      }
+
+      .sg-delivs {
+        grid-template-columns: 1fr
+      }
+
+      .sg-pillars {
+        display: none
+      }
+
+      .sg-tline-item {
+        grid-template-columns: 1fr
+      }
+
+      .sg-tline-label {
+        font-size: 1.5rem
+      }
+
+      .hero-stats {
+        display: none
+      }
+
+      .estab-section,
+      .res-section {
+        padding: 5rem 2rem
+      }
+
+      footer {
+        padding: 3rem 2rem
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center
+      }
+
+      body,
+      a,
+      button {
+        cursor: auto
+      }
+
+      #cur,
+      #cur2 {
+        display: none
+      }
+    }
+  </style>
 </head>
+
 <body>
-<div id="cur"></div>
-<div id="cur2"></div>
+  <div id="cur"></div>
+  <div id="cur2"></div>
 
-<nav id="nav">
-  <a class="logo" href="#top"><span class="logo-icon">∫</span>Jairan Dionizio</a>
-  <ul class="nav-links">
-    <li><a href="#viz">Visualizações</a></li>
-    <li><a href="#hub">Hub</a></li>
-    <li><a href="#sobre">Sobre</a></li>
-    <li><a href="#estabraco">Estabraço</a></li>
-    <li><a href="#stratcg" style="color:var(--violet)">STRAT.CG</a></li>
-  </ul>
-  <a class="nav-btn" href="http://lattes.cnpq.br/8948545220815883" target="_blank">Lattes →</a>
-</nav>
+  <nav id="nav">
+    <a class="logo" href="#top"><span class="logo-icon">∫-JD</span>Jairan Dionizio</a>
+    <ul class="nav-links">
+      <li><a href="#viz">Visualizações</a></li>
+      <li><a href="#hub">Hub</a></li>
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#estabraco">Estabraço</a></li>
+      <li><a href="#stratcg" style="color:var(--violet)">STRAT.CG</a></li>
+    </ul>
+    <a class="nav-btn" href="http://lattes.cnpq.br/8948545220815883" target="_blank">Lattes →</a>
+  </nav>
 
-<section class="hero" id="top">
-  <canvas id="heroCanvas"></canvas>
-  <div class="hero-content">
-    <div class="hero-badge"><span></span>Hub de Aprendizagem · Estatística &amp; Data Science</div>
-    <h1 class="hero-h1">
-      <span class="italic">'Estatisticando</span><br>
-      com a <span class="accent">variabilidade</span><br>
-      do viver'
-    </h1>
-    <p class="hero-sub">O espaço do <em>Prof. Jairan Dionizio</em> para o ensino de Estatística, Pensamento Estatístico e Métodos de Decisão Multicritério.</p>
-    <div class="hero-actions">
-      <a class="btn-glow" href="#hub">Explorar Hub</a>
-      <a class="btn-outline" href="#sobre">Sobre o Professor</a>
+  <section class="hero" id="top">
+    <canvas id="heroCanvas"></canvas>
+    <div class="hero-content">
+      <div class="hero-badge"><span></span>Hub de Aprendizagem · Estatística &amp; Data Science</div>
+      <h1 class="hero-h1">
+        <span class="italic">'Estatisticando</span><br>
+        com a <span class="accent">variabilidade</span><br>
+        do viver'
+      </h1>
+      <p class="hero-sub">O espaço do <em>Prof. Jairan Dionizio</em> para o ensino de Estatística, Pensamento
+        Estatístico e Métodos de Decisão Multicritério, bem como o desenvolvimento sustetável de processos e produtos.
+      </p>
+      <div class="hero-actions">
+        <a class="btn-glow" href="#hub">Explorar Hub</a>
+        <a class="btn-outline" href="#sobre">Sobre o Professor</a>
+      </div>
     </div>
-  </div>
-  <div class="hero-stats">
-    <div class="hstat">
-      <div class="hstat-bar"></div>
-      <div class="hstat-num">10<small style="font-size:1rem;color:var(--muted)">+</small></div>
-      <div class="hstat-info">anos de ensino</div>
+    <div class="hero-stats">
+      <div class="hstat">
+        <div class="hstat-bar"></div>
+        <div class="hstat-num">10<small style="font-size:1rem;color:var(--muted)">+</small></div>
+        <div class="hstat-info">anos de ensino</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-bar"></div>
+        <div class="hstat-num">5<small style="font-size:1rem;color:var(--muted)">+</small></div>
+        <div class="hstat-info">disciplinas</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-bar" style="background:linear-gradient(180deg,var(--violet),transparent)"></div>
+        <div class="hstat-num v">∞</div>
+        <div class="hstat-info">datasets</div>
+      </div>
     </div>
-    <div class="hstat">
-      <div class="hstat-bar"></div>
-      <div class="hstat-num">5<small style="font-size:1rem;color:var(--muted)">+</small></div>
-      <div class="hstat-info">disciplinas</div>
+    <div class="scroll-ind">
+      <span class="scroll-label">scroll</span>
+      <div class="scroll-dot"></div>
     </div>
-    <div class="hstat">
-      <div class="hstat-bar" style="background:linear-gradient(180deg,var(--violet),transparent)"></div>
-      <div class="hstat-num v">∞</div>
-      <div class="hstat-info">datasets</div>
-    </div>
-  </div>
-  <div class="scroll-ind">
-    <span class="scroll-label">scroll</span>
-    <div class="scroll-dot"></div>
-  </div>
-</section>
+  </section>
 
-<div class="viz-banner">
-  <div class="ticker-wrap">
-    <div class="ticker-item">R² <span class="ticker-val">0.9847</span> <span class="up">▲</span></div>
-    <div class="ticker-item">p-valor <span class="ticker-val">0.0023</span> <span class="up">▲</span></div>
-    <div class="ticker-item">IC 95% <span class="ticker-val">[1.24; 3.87]</span></div>
-    <div class="ticker-item">Qui² <span class="ticker-val">12.45</span> <span class="up">▲</span></div>
-    <div class="ticker-item">Entropia H <span class="ticker-val">2.71</span></div>
-    <div class="ticker-item">Shapiro-Wilk <span class="ticker-val">0.963</span> <span class="up">▲</span></div>
-    <div class="ticker-item">AIC <span class="ticker-val">234.7</span> <span class="dn">▼</span></div>
-    <div class="ticker-item">BIC <span class="ticker-val">241.2</span> <span class="dn">▼</span></div>
-    <div class="ticker-item">F-stat <span class="ticker-val">47.83</span> <span class="up">▲</span></div>
-    <div class="ticker-item">α = <span class="ticker-val">0.05</span></div>
-    <div class="ticker-item">R² <span class="ticker-val">0.9847</span> <span class="up">▲</span></div>
-    <div class="ticker-item">p-valor <span class="ticker-val">0.0023</span> <span class="up">▲</span></div>
-    <div class="ticker-item">IC 95% <span class="ticker-val">[1.24; 3.87]</span></div>
-    <div class="ticker-item">Qui² <span class="ticker-val">12.45</span> <span class="up">▲</span></div>
-    <div class="ticker-item">Entropia H <span class="ticker-val">2.71</span></div>
-    <div class="ticker-item">Shapiro-Wilk <span class="ticker-val">0.963</span> <span class="up">▲</span></div>
-    <div class="ticker-item">AIC <span class="ticker-val">234.7</span> <span class="dn">▼</span></div>
-    <div class="ticker-item">BIC <span class="ticker-val">241.2</span> <span class="dn">▼</span></div>
-    <div class="ticker-item">F-stat <span class="ticker-val">47.83</span> <span class="up">▲</span></div>
-    <div class="ticker-item">α = <span class="ticker-val">0.05</span></div>
+  <div class="viz-banner">
+    <div class="ticker-wrap">
+      <div class="ticker-item">R² <span class="ticker-val">0.9847</span> <span class="up">▲</span></div>
+      <div class="ticker-item">p-valor <span class="ticker-val">0.0023</span> <span class="up">▲</span></div>
+      <div class="ticker-item">IC 95% <span class="ticker-val">[1.24; 3.87]</span></div>
+      <div class="ticker-item">Qui² <span class="ticker-val">12.45</span> <span class="up">▲</span></div>
+      <div class="ticker-item">Entropia H <span class="ticker-val">2.71</span></div>
+      <div class="ticker-item">Shapiro-Wilk <span class="ticker-val">0.963</span> <span class="up">▲</span></div>
+      <div class="ticker-item">AIC <span class="ticker-val">234.7</span> <span class="dn">▼</span></div>
+      <div class="ticker-item">BIC <span class="ticker-val">241.2</span> <span class="dn">▼</span></div>
+      <div class="ticker-item">F-stat <span class="ticker-val">47.83</span> <span class="up">▲</span></div>
+      <div class="ticker-item">α = <span class="ticker-val">0.05</span></div>
+      <div class="ticker-item">R² <span class="ticker-val">0.9847</span> <span class="up">▲</span></div>
+      <div class="ticker-item">p-valor <span class="ticker-val">0.0023</span> <span class="up">▲</span></div>
+      <div class="ticker-item">IC 95% <span class="ticker-val">[1.24; 3.87]</span></div>
+      <div class="ticker-item">Qui² <span class="ticker-val">12.45</span> <span class="up">▲</span></div>
+      <div class="ticker-item">Entropia H <span class="ticker-val">2.71</span></div>
+      <div class="ticker-item">Shapiro-Wilk <span class="ticker-val">0.963</span> <span class="up">▲</span></div>
+      <div class="ticker-item">AIC <span class="ticker-val">234.7</span> <span class="dn">▼</span></div>
+      <div class="ticker-item">BIC <span class="ticker-val">241.2</span> <span class="dn">▼</span></div>
+      <div class="ticker-item">F-stat <span class="ticker-val">47.83</span> <span class="up">▲</span></div>
+      <div class="ticker-item">α = <span class="ticker-val">0.05</span></div>
+    </div>
   </div>
-</div>
 
-<section class="charts-section" id="viz">
-  <div class="charts-header reveal">
-    <div class="s-label">Visualizações ao Vivo</div>
-    <h2 class="s-h2">Estatística é <em>ver</em><br>o invisível</h2>
-    <p class="s-p" style="margin-top:.8rem">Dados que respiram. Cada gráfico representa conceitos do ensino do Prof. Jairan — distribuições, regressão, clustering e séries temporais.</p>
-  </div>
-  <div class="charts-grid reveal">
-    <div class="chart-card wide">
-      <div class="cc-label">Distribuição Normal</div>
-      <div class="cc-title">Curva de Gauss Animada</div>
-      <div class="cc-sub">μ variando em tempo real · σ fixo</div>
-      <canvas class="viz" id="cNormal" height="160"></canvas>
+  <section class="charts-section" id="viz">
+    <div class="charts-header reveal">
+      <div class="s-label">Visualizações ao Vivo</div>
+      <h2 class="s-h2">Estatística é <em>ver</em><br>o invisível</h2>
+      <p class="s-p" style="margin-top:.8rem">Dados que respiram. Cada gráfico representa conceitos do ensino do Prof.
+        Jairan — distribuições, regressão, clustering e séries temporais.</p>
     </div>
-    <div class="chart-card tall">
-      <div class="cc-label">Regressão Linear</div>
-      <div class="cc-title">Dispersão &amp; Reta Ajustada</div>
-      <div class="cc-sub">y = β₀ + β₁x + ε</div>
-      <canvas class="viz" id="cScatter" height="320"></canvas>
+    <div class="charts-grid reveal">
+      <div class="chart-card wide">
+        <div class="cc-label">Distribuição Normal</div>
+        <div class="cc-title">Curva de Gauss Animada</div>
+        <div class="cc-sub">μ variando em tempo real · σ fixo</div>
+        <canvas class="viz" id="cNormal" height="160"></canvas>
+      </div>
+      <div class="chart-card tall">
+        <div class="cc-label">Regressão Linear</div>
+        <div class="cc-title">Dispersão &amp; Reta Ajustada</div>
+        <div class="cc-sub">y = β₀ + β₁x + ε</div>
+        <canvas class="viz" id="cScatter" height="320"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="cc-label">Distribuição de Frequência</div>
+        <div class="cc-title">Histograma Dinâmico</div>
+        <div class="cc-sub">n = 500 · atualização contínua</div>
+        <canvas class="viz" id="cBar" height="160"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="cc-label">Análise Multicritério</div>
+        <div class="cc-title">Gráfico Radar</div>
+        <div class="cc-sub">Comparação de 2 alternativas</div>
+        <canvas class="viz" id="cRadar" height="160"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="cc-label">Estatística Descritiva</div>
+        <div class="cc-title">Boxplot — 5 Números</div>
+        <div class="cc-sub">Min · Q1 · Mediana · Q3 · Max</div>
+        <canvas class="viz" id="cBox" height="160"></canvas>
+      </div>
+      <div class="chart-card wide">
+        <div class="cc-label">Série Temporal</div>
+        <div class="cc-title">Tendência &amp; Sazonalidade</div>
+        <div class="cc-sub">Yt = Tt + St + Et</div>
+        <canvas class="viz" id="cTime" height="160"></canvas>
+      </div>
     </div>
-    <div class="chart-card">
-      <div class="cc-label">Distribuição de Frequência</div>
-      <div class="cc-title">Histograma Dinâmico</div>
-      <div class="cc-sub">n = 500 · atualização contínua</div>
-      <canvas class="viz" id="cBar" height="160"></canvas>
-    </div>
-    <div class="chart-card">
-      <div class="cc-label">Análise Multicritério</div>
-      <div class="cc-title">Gráfico Radar</div>
-      <div class="cc-sub">Comparação de 2 alternativas</div>
-      <canvas class="viz" id="cRadar" height="160"></canvas>
-    </div>
-    <div class="chart-card">
-      <div class="cc-label">Estatística Descritiva</div>
-      <div class="cc-title">Boxplot — 5 Números</div>
-      <div class="cc-sub">Min · Q1 · Mediana · Q3 · Max</div>
-      <canvas class="viz" id="cBox" height="160"></canvas>
-    </div>
-    <div class="chart-card wide">
-      <div class="cc-label">Série Temporal</div>
-      <div class="cc-title">Tendência &amp; Sazonalidade</div>
-      <div class="cc-sub">Yt = Tt + St + Et</div>
-      <canvas class="viz" id="cTime" height="160"></canvas>
-    </div>
-  </div>
-</section>
+  </section>
 
-<div class="glow-line"></div>
+  <div class="glow-line"></div>
 
-<section class="hub-section" id="hub">
-  <div class="reveal">
-    <div class="s-label">Hub de Aprendizagem</div>
-    <h2 class="s-h2">Tudo a um <em>clique</em></h2>
-    <p class="s-p">Softwares, datasets, materiais e salas organizados para sua jornada estatística.</p>
-  </div>
-  <div class="hub-grid">
-    <a class="hub-card reveal" href="https://jairandionizio.github.io/estabraco/softwares.html" target="_blank">
-      <div class="hub-card-glow" style="background:var(--cyan)"></div>
-      <div class="hc-num">01</div>
-      <span class="hc-icon" style="color:var(--cyan)">⌨</span>
-      <div class="hc-title">Softwares</div>
-      <div class="hc-desc">R, RStudio, Positron, Python, Quarto, Jupyter, LaTeX e ferramentas para análise de dados.</div>
-      <span class="hc-tag" style="background:rgba(56,189,248,.1);color:var(--cyan)">12 ferramentas</span>
-      <div class="hc-arrow">↗</div>
-    </a>
-    <a class="hub-card reveal rd1" href="https://jairandionizio.github.io/estabraco/post.html" target="_blank">
-      <div class="hub-card-glow" style="background:var(--neon)"></div>
-      <div class="hc-num">02</div>
-      <span class="hc-icon" style="color:var(--neon)">◈</span>
-      <div class="hc-title">Datasets</div>
-      <div class="hc-desc">DATASUS, TSE, Portal de Dados Abertos, Google Dataset Search, Capes e mais.</div>
-      <span class="hc-tag" style="background:rgba(163,230,53,.1);color:var(--neon)">dados reais</span>
-      <div class="hc-arrow">↗</div>
-    </a>
-    <a class="hub-card reveal rd2" href="https://jairandionizio.github.io/estabraco/material.html" target="_blank">
-      <div class="hub-card-glow" style="background:var(--violet)"></div>
-      <div class="hc-num">03</div>
-      <span class="hc-icon" style="color:var(--violet)">📖</span>
-      <div class="hc-title">Material de Apoio</div>
-      <div class="hc-desc">R for Data Science, Ciências de Dados com R e referências essenciais para o aprendizado.</div>
-      <span class="hc-tag" style="background:rgba(167,139,250,.1);color:var(--violet)">leituras</span>
-      <div class="hc-arrow">↗</div>
-    </a>
-    <a class="hub-card reveal" href="https://classroom.google.com/c/NTM2MTUyODExNTJa" target="_blank">
-      <div class="hub-card-glow" style="background:var(--amber)"></div>
-      <div class="hc-num">04</div>
-      <span class="hc-icon" style="color:var(--amber)">🎓</span>
-      <div class="hc-title">Sala de Aula</div>
-      <div class="hc-desc">Google Classroom — Sala Sir Ronald Fisher com materiais e atividades das turmas.</div>
-      <span class="hc-tag" style="background:rgba(251,191,36,.1);color:var(--amber)">turmas ativas</span>
-      <div class="hc-arrow">↗</div>
-    </a>
-    <a class="hub-card reveal rd1" href="https://jairandionizio.github.io/estabraco/M&A.html" target="_blank">
-      <div class="hub-card-glow" style="background:var(--rose)"></div>
-      <div class="hc-num">05</div>
-      <span class="hc-icon" style="color:var(--rose)">⬡</span>
-      <div class="hc-title">M&amp;A Multicritério</div>
-      <div class="hc-desc">Métodos e Abordagens para suporte à decisão multicritério e análise de cenários.</div>
-      <span class="hc-tag" style="background:rgba(251,113,133,.1);color:var(--rose)">métodos</span>
-      <div class="hc-arrow">↗</div>
-    </a>
-    <a class="hub-card reveal rd2" href="https://www.youtube.com/@estabraco" target="_blank">
-      <div class="hub-card-glow" style="background:var(--electric)"></div>
-      <div class="hc-num">06</div>
-      <span class="hc-icon" style="color:var(--electric)">▶</span>
-      <div class="hc-title">Canal Estabraço</div>
-      <div class="hc-desc">YouTube: Letramento Estatístico, Pensamento Estatístico e Decisão Multicritério em vídeo.</div>
-      <span class="hc-tag" style="background:rgba(0,245,255,.1);color:var(--electric)">youtube</span>
-      <div class="hc-arrow">↗</div>
-    </a>
-  </div>
-</section>
-
-<div class="about-section" id="sobre">
-  <div class="about-left">
+  <section class="hub-section" id="hub">
     <div class="reveal">
-      <div class="s-label">Quem é</div>
-      <h2 class="s-h2">Prof. Jairan<br><em>Dionizio</em></h2>
-      <blockquote class="about-quote">"Acredito que o pensamento estatístico é elemento fundamental que antecede a criação dos modelos estatísticos."</blockquote>
-      <p class="about-body">Mestre e Doutorando em Engenharia Industrial pela UFBA. Bacharel em Estatística pela UFRN. Professor substituto na UEFS, com passagem pela UFRB (Bioestatística) e UFBA (Probabilidade e Estatística, 2015–2017).</p>
-      <p class="about-body">Consultor empresarial com foco em soluções estatísticas em engenharia, saúde, ciências sociais, zootecnia, administração, neurociência e outras áreas.</p>
-      <div class="about-links">
-        <a class="alink" href="http://lattes.cnpq.br/8948545220815883" target="_blank">📋 Lattes</a>
-        <a class="alink" href="https://br.linkedin.com/in/jairan-dionizio" target="_blank">🔗 LinkedIn</a>
-        <a class="alink" href="https://github.com/jairandionizio" target="_blank">⌥ GitHub</a>
-        <a class="alink" href="https://jairandionizio.github.io/estabraco/contact.html" target="_blank">✉ Contato</a>
+      <div class="s-label">Hub de Aprendizagem</div>
+      <h2 class="s-h2">Tudo a um <em>clique</em></h2>
+      <p class="s-p">Softwares, datasets, materiais e salas organizados para sua jornada estatística.</p>
+    </div>
+    <div class="hub-grid">
+      <a class="hub-card reveal" href="https://jairandionizio.github.io/estabraco/softwares.html" target="_blank">
+        <div class="hub-card-glow" style="background:var(--cyan)"></div>
+        <div class="hc-num">01</div>
+        <span class="hc-icon" style="color:var(--cyan)">⌨</span>
+        <div class="hc-title">Softwares</div>
+        <div class="hc-desc">R, RStudio, Positron, Python, Quarto, Jupyter, LaTeX e ferramentas para análise de dados.
+        </div>
+        <span class="hc-tag" style="background:rgba(56,189,248,.1);color:var(--cyan)">12 ferramentas</span>
+        <div class="hc-arrow">↗</div>
+      </a>
+      <a class="hub-card reveal rd1" href="https://jairandionizio.github.io/estabraco/post.html" target="_blank">
+        <div class="hub-card-glow" style="background:var(--neon)"></div>
+        <div class="hc-num">02</div>
+        <span class="hc-icon" style="color:var(--neon)">◈</span>
+        <div class="hc-title">Datasets</div>
+        <div class="hc-desc">DATASUS, TSE, Portal de Dados Abertos, Google Dataset Search, Capes e mais.</div>
+        <span class="hc-tag" style="background:rgba(163,230,53,.1);color:var(--neon)">dados reais</span>
+        <div class="hc-arrow">↗</div>
+      </a>
+      <a class="hub-card reveal rd2" href="https://jairandionizio.github.io/estabraco/material.html" target="_blank">
+        <div class="hub-card-glow" style="background:var(--violet)"></div>
+        <div class="hc-num">03</div>
+        <span class="hc-icon" style="color:var(--violet)">📖</span>
+        <div class="hc-title">Material de Apoio</div>
+        <div class="hc-desc">R for Data Science, Ciências de Dados com R e referências essenciais para o aprendizado.
+        </div>
+        <span class="hc-tag" style="background:rgba(167,139,250,.1);color:var(--violet)">leituras</span>
+        <div class="hc-arrow">↗</div>
+      </a>
+      <a class="hub-card reveal" href="https://classroom.google.com/c/NTM2MTUyODExNTJa" target="_blank">
+        <div class="hub-card-glow" style="background:var(--amber)"></div>
+        <div class="hc-num">04</div>
+        <span class="hc-icon" style="color:var(--amber)">🎓</span>
+        <div class="hc-title">Sala de Aula</div>
+        <div class="hc-desc">Google Classroom — Sala Sir Ronald Fisher com materiais e atividades das turmas.</div>
+        <span class="hc-tag" style="background:rgba(251,191,36,.1);color:var(--amber)">turmas ativas</span>
+        <div class="hc-arrow">↗</div>
+      </a>
+      <a class="hub-card reveal rd1" href="https://jairandionizio.github.io/estabraco/M&A.html" target="_blank">
+        <div class="hub-card-glow" style="background:var(--rose)"></div>
+        <div class="hc-num">05</div>
+        <span class="hc-icon" style="color:var(--rose)">⬡</span>
+        <div class="hc-title">M&amp;A Multicritério</div>
+        <div class="hc-desc">Métodos e Abordagens para suporte à decisão multicritério e análise de cenários.</div>
+        <span class="hc-tag" style="background:rgba(251,113,133,.1);color:var(--rose)">métodos</span>
+        <div class="hc-arrow">↗</div>
+      </a>
+      <a class="hub-card reveal rd2" href="https://www.youtube.com/@estabraco" target="_blank">
+        <div class="hub-card-glow" style="background:var(--electric)"></div>
+        <div class="hc-num">06</div>
+        <span class="hc-icon" style="color:var(--electric)">▶</span>
+        <div class="hc-title">Canal Estabraço</div>
+        <div class="hc-desc">YouTube: Letramento Estatístico, Pensamento Estatístico e Decisão Multicritério em vídeo.
+        </div>
+        <span class="hc-tag" style="background:rgba(0,245,255,.1);color:var(--electric)">youtube</span>
+        <div class="hc-arrow">↗</div>
+      </a>
+    </div>
+  </section>
+
+  <div class="about-section" id="sobre">
+    <div class="about-left">
+      <div class="reveal">
+        <div class="s-label">Quem é</div>
+        <h2 class="s-h2">Prof. Jairan<br><em>Dionizio</em></h2>
+        <blockquote class="about-quote">"Acredito que o pensamento estatístico é elemento fundamental que antecede a
+          criação dos modelos estatísticos."</blockquote>
+        <p class="about-body">Mestre em Engenharia Industrial pela UFBA. Bacharel em Estatística pela UFRN. Professor
+          substituto na UEFS, com passagem pela UFRB (Bioestatística), UFBA (Probabilidade e Estatística, 2015–2017) e
+          UFPB (Probabilidade e Estatística,2024).</p>
+        <p class="about-body">Consultor empresarial com foco em soluções estatísticas em engenharia, saúde, ciências
+          sociais, zootecnia, administração, neurociência e outras áreas.</p>
+        <div class="about-links">
+          <a class="alink" href="http://lattes.cnpq.br/8948545220815883" target="_blank">📋 Lattes</a>
+          <a class="alink" href="https://br.linkedin.com/in/jairan-dionizio" target="_blank">🔗 LinkedIn</a>
+          <a class="alink" href="https://github.com/jairandionizio" target="_blank">⌥ GitHub</a>
+          <a class="alink" href="https://jairandionizio.github.io/estabraco/contact.html" target="_blank">✉ Contato</a>
+        </div>
+      </div>
+    </div>
+    <div class="about-right">
+      <div class="reveal">
+        <div class="s-label">Formação</div>
+        <h2 class="s-h2" style="font-size:2rem">Trajetória<br><em>Acadêmica</em></h2>
+        <div class="cred-grid">
+          <div class="cred">
+            <div class="cred-t">📜 Mestrado</div>
+            <div class="cred-s">Engenharia Industrial · UFBA</div>
+          </div>
+          <div class="cred">
+            <div class="cred-t">📊 Bacharelado</div>
+            <div class="cred-s">Estatística · UFRN</div>
+          </div>
+          <div class="cred">
+            <div class="cred-t">🏫 Docência</div>
+            <div class="cred-s">UEFS · UFRB · UFBA</div>
+          </div>
+          <div class="cred" style="grid-column:1/-1">
+            <div class="cred-t">💼 Consultoria Empresarial</div>
+            <div class="cred-s">Soluções estatísticas em múltiplas áreas: engenharia, saúde, ciências sociais,
+              neurociência e mais.</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="about-right">
-    <div class="reveal">
-      <div class="s-label">Formação</div>
-      <h2 class="s-h2" style="font-size:2rem">Trajetória<br><em>Acadêmica</em></h2>
-      <div class="cred-grid">
-        <div class="cred"><div class="cred-t">🎓 Doutorado (em curso)</div><div class="cred-s">Engenharia Industrial · UFBA</div></div>
-        <div class="cred"><div class="cred-t">📜 Mestrado</div><div class="cred-s">Engenharia Industrial · UFBA</div></div>
-        <div class="cred"><div class="cred-t">📊 Bacharelado</div><div class="cred-s">Estatística · UFRN</div></div>
-        <div class="cred"><div class="cred-t">🏫 Docência</div><div class="cred-s">UEFS · UFRB · UFBA</div></div>
-        <div class="cred" style="grid-column:1/-1"><div class="cred-t">💼 Consultoria Empresarial</div><div class="cred-s">Soluções estatísticas em múltiplas áreas: engenharia, saúde, ciências sociais, neurociência e mais.</div></div>
+
+  <div class="estab-section" id="estabraco">
+    <div class="estab-bg">ESTABRAÇO</div>
+    <div class="estab-inner">
+      <div class="reveal">
+        <div class="s-label">Canal no YouTube</div>
+        <h2 class="estab-title">Estabraço —<br><em>o aconchego</em><br>da variabilidade</h2>
+        <p class="estab-body">Canal de comunicação científica com foco no fortalecimento do Letramento Estatístico
+          através do Pensamento Estatístico e na difusão dos Métodos de Decisão Multicritério.</p>
+        <a class="estab-cta" href="https://www.youtube.com/@estabraco" target="_blank">▶ Assistir no YouTube</a>
+      </div>
+      <div class="estab-pills reveal">
+        <div class="epill"><span class="epill-icon">📈</span><span class="epill-text">Letramento Estatístico em
+            vídeo</span></div>
+        <div class="epill"><span class="epill-icon">🧠</span><span class="epill-text">Pensamento Estatístico
+            aplicado</span></div>
+        <div class="epill"><span class="epill-icon">⬡</span><span class="epill-text">Decisão Multicritério na
+            prática</span></div>
+        <div class="epill"><span class="epill-icon">💻</span><span class="epill-text">Tutoriais em R e Python</span>
+        </div>
+        <div class="epill"><span class="epill-icon">🎙</span><span class="epill-text">Comunicação Científica
+            acessível</span></div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="estab-section" id="estabraco">
-  <div class="estab-bg">ESTABRAÇO</div>
-  <div class="estab-inner">
+  <section class="res-section" id="recursos">
     <div class="reveal">
-      <div class="s-label">Canal no YouTube</div>
-      <h2 class="estab-title">Estabraço —<br><em>o aconchego</em><br>da variabilidade</h2>
-      <p class="estab-body">Canal de comunicação científica com foco no fortalecimento do Letramento Estatístico através do Pensamento Estatístico e na difusão dos Métodos de Decisão Multicritério.</p>
-      <a class="estab-cta" href="https://www.youtube.com/@estabraco" target="_blank">▶ Assistir no YouTube</a>
+      <div class="s-label">Recursos Curados</div>
+      <h2 class="s-h2">Links <em>essenciais</em></h2>
+      <p class="s-p">Ferramentas e leituras organizadas para a jornada em estatística e ciência de dados.</p>
     </div>
-    <div class="estab-pills reveal">
-      <div class="epill"><span class="epill-icon">📈</span><span class="epill-text">Letramento Estatístico em vídeo</span></div>
-      <div class="epill"><span class="epill-icon">🧠</span><span class="epill-text">Pensamento Estatístico aplicado</span></div>
-      <div class="epill"><span class="epill-icon">⬡</span><span class="epill-text">Decisão Multicritério na prática</span></div>
-      <div class="epill"><span class="epill-icon">💻</span><span class="epill-text">Tutoriais em R e Python</span></div>
-      <div class="epill"><span class="epill-icon">🎙</span><span class="epill-text">Comunicação Científica acessível</span></div>
+    <div class="res-grid reveal">
+      <div>
+        <div class="res-col-head" style="color:var(--cyan)">⌨ Softwares</div>
+        <a class="res-item" href="https://www.r-project.org/" target="_blank">
+          <div class="ri-dot" style="background:var(--neon)"></div>
+          <div>
+            <div class="ri-name">Software R</div>
+            <div class="ri-desc">Computação e gráficos estatísticos</div>
+          </div>
+        </a>
+        <a class="res-item" href="https://positron.posit.co/download.html" target="_blank">
+          <div class="ri-dot" style="background:var(--cyan)"></div>
+          <div>
+            <div class="ri-name">Positron</div>
+            <div class="ri-desc">IDE moderna para R e Python — Posit</div>
+          </div>
+        </a>
+        <a class="res-item" href="https://rstudio.com/products/rstudio/download/" target="_blank">
+          <div class="ri-dot" style="background:var(--cyan)"></div>
+          <div>
+            <div class="ri-name">RStudio</div>
+            <div class="ri-desc">IDE clássica para R</div>
+          </div>
+        </a>
+        <a class="res-item" href="https://quarto.org/" target="_blank">
+          <div class="ri-dot" style="background:var(--violet)"></div>
+          <div>
+            <div class="ri-name">Quarto</div>
+            <div class="ri-desc">Publicação científica open-source</div>
+          </div>
+        </a>
+        <a class="res-item" href="https://jupyter.org/install" target="_blank">
+          <div class="ri-dot" style="background:var(--amber)"></div>
+          <div>
+            <div class="ri-name">Jupyter / JupyterLab</div>
+            <div class="ri-desc">Notebooks interativos para Python</div>
+          </div>
+        </a>
+        <a class="res-item" href="https://miktex.org/" target="_blank">
+          <div class="ri-dot" style="background:var(--rose)"></div>
+          <div>
+            <div class="ri-name">MiKTeX + TeXstudio</div>
+            <div class="ri-desc">LaTeX para relatórios científicos</div>
+          </div>
+        </a>
+        <a class="res-item" href="https://www.sublimetext.com/" target="_blank">
+          <div class="ri-dot" style="background:var(--electric)"></div>
+          <div>
+            <div class="ri-name">Sublime Text</div>
+            <div class="ri-desc">Editor de texto avançado</div>
+          </div>
+        </a>
+      </div>
+      <div>
+        <div class="res-col-head" style="color:var(--neon)">◈ Datasets</div>
+        <a class="res-item" href="https://opendatasus.saude.gov.br/" target="_blank">
+          <div class="ri-dot" style="background:var(--rose)"></div>
+          <div>
+            <div class="ri-name">OpenDataSUS</div>
+            <div class="ri-desc">Dados de saúde pública brasileira</div>
+          </div>
+        </a>
+        <a class="res-item" href="http://www.tse.jus.br/eleicoes/estatisticas/repositorio-de-dados-eleitorais-1"
+          target="_blank">
+          <div class="ri-dot" style="background:var(--neon)"></div>
+          <div>
+            <div class="ri-name">Repositório TSE</div>
+            <div class="ri-desc">Dados eleitorais desde 1945</div>
+          </div>
+        </a>
+        <a class="res-item" href="http://www.dados.gov.br/dataset" target="_blank">
+          <div class="ri-dot" style="background:var(--cyan)"></div>
+          <div>
+            <div class="ri-name">Portal de Dados Abertos</div>
+            <div class="ri-desc">Governo brasileiro — dados públicos</div>
+          </div>
+        </a>
+        <a class="res-item" href="https://research.google/tools/datasets/" target="_blank">
+          <div class="ri-dot" style="background:var(--amber)"></div>
+          <div>
+            <div class="ri-name">Google Dataset Search</div>
+            <div class="ri-desc">Motor de busca de datasets globais</div>
+          </div>
+        </a>
+        <a class="res-item" href="https://dadosabertos.capes.gov.br/dataset" target="_blank">
+          <div class="ri-dot" style="background:var(--violet)"></div>
+          <div>
+            <div class="ri-name">Dados Abertos Capes</div>
+            <div class="ri-desc">Pós-graduação e pesquisa brasileira</div>
+          </div>
+        </a>
+        <a class="res-item" href="https://ckan.org/" target="_blank">
+          <div class="ri-dot" style="background:var(--electric)"></div>
+          <div>
+            <div class="ri-name">CKAN</div>
+            <div class="ri-desc">Plataforma de dados abertos</div>
+          </div>
+        </a>
+      </div>
+      <div>
+        <div class="res-col-head" style="color:var(--violet)">📖 Leituras &amp; Aulas</div>
+        <a class="res-item" href="https://r4ds.had.co.nz/" target="_blank">
+          <div class="ri-dot" style="background:var(--neon)"></div>
+          <div>
+            <div class="ri-name">R for Data Science</div>
+            <div class="ri-desc">Hadley Wickham — referência mundial</div>
+          </div>
+        </a>
+        <a class="res-item" href="https://cdr.ibpad.com.br/" target="_blank">
+          <div class="ri-dot" style="background:var(--cyan)"></div>
+          <div>
+            <div class="ri-name">Ciências de Dados com R</div>
+            <div class="ri-desc">IBPAD — em português brasileiro</div>
+          </div>
+        </a>
+        <a class="res-item" href="https://classroom.google.com/c/NTM2MTUyODExNTJa" target="_blank">
+          <div class="ri-dot" style="background:var(--amber)"></div>
+          <div>
+            <div class="ri-name">Sala Sir Ronald Fisher</div>
+            <div class="ri-desc">Google Classroom — turma ativa</div>
+          </div>
+        </a>
+        <a class="res-item" href="https://jairandionizio.github.io/estabraco/material.html" target="_blank">
+          <div class="ri-dot" style="background:var(--violet)"></div>
+          <div>
+            <div class="ri-name">Material de Apoio Completo</div>
+            <div class="ri-desc">Todos os recursos do professor</div>
+          </div>
+        </a>
+        <a class="res-item" href="https://www.youtube.com/@estabraco" target="_blank">
+          <div class="ri-dot" style="background:var(--rose)"></div>
+          <div>
+            <div class="ri-name">Canal Estabraço</div>
+            <div class="ri-desc">YouTube — videoaulas gratuitas</div>
+          </div>
+        </a>
+      </div>
     </div>
-  </div>
-</div>
+  </section>
 
-<section class="res-section" id="recursos">
-  <div class="reveal">
-    <div class="s-label">Recursos Curados</div>
-    <h2 class="s-h2">Links <em>essenciais</em></h2>
-    <p class="s-p">Ferramentas e leituras organizadas para a jornada em estatística e ciência de dados.</p>
-  </div>
-  <div class="res-grid reveal">
-    <div>
-      <div class="res-col-head" style="color:var(--cyan)">⌨ Softwares</div>
-      <a class="res-item" href="https://www.r-project.org/" target="_blank"><div class="ri-dot" style="background:var(--neon)"></div><div><div class="ri-name">Software R</div><div class="ri-desc">Computação e gráficos estatísticos</div></div></a>
-      <a class="res-item" href="https://positron.posit.co/download.html" target="_blank"><div class="ri-dot" style="background:var(--cyan)"></div><div><div class="ri-name">Positron</div><div class="ri-desc">IDE moderna para R e Python — Posit</div></div></a>
-      <a class="res-item" href="https://rstudio.com/products/rstudio/download/" target="_blank"><div class="ri-dot" style="background:var(--cyan)"></div><div><div class="ri-name">RStudio</div><div class="ri-desc">IDE clássica para R</div></div></a>
-      <a class="res-item" href="https://quarto.org/" target="_blank"><div class="ri-dot" style="background:var(--violet)"></div><div><div class="ri-name">Quarto</div><div class="ri-desc">Publicação científica open-source</div></div></a>
-      <a class="res-item" href="https://jupyter.org/install" target="_blank"><div class="ri-dot" style="background:var(--amber)"></div><div><div class="ri-name">Jupyter / JupyterLab</div><div class="ri-desc">Notebooks interativos para Python</div></div></a>
-      <a class="res-item" href="https://miktex.org/" target="_blank"><div class="ri-dot" style="background:var(--rose)"></div><div><div class="ri-name">MiKTeX + TeXstudio</div><div class="ri-desc">LaTeX para relatórios científicos</div></div></a>
-      <a class="res-item" href="https://www.sublimetext.com/" target="_blank"><div class="ri-dot" style="background:var(--electric)"></div><div><div class="ri-name">Sublime Text</div><div class="ri-desc">Editor de texto avançado</div></div></a>
-    </div>
-    <div>
-      <div class="res-col-head" style="color:var(--neon)">◈ Datasets</div>
-      <a class="res-item" href="https://opendatasus.saude.gov.br/" target="_blank"><div class="ri-dot" style="background:var(--rose)"></div><div><div class="ri-name">OpenDataSUS</div><div class="ri-desc">Dados de saúde pública brasileira</div></div></a>
-      <a class="res-item" href="http://www.tse.jus.br/eleicoes/estatisticas/repositorio-de-dados-eleitorais-1" target="_blank"><div class="ri-dot" style="background:var(--neon)"></div><div><div class="ri-name">Repositório TSE</div><div class="ri-desc">Dados eleitorais desde 1945</div></div></a>
-      <a class="res-item" href="http://www.dados.gov.br/dataset" target="_blank"><div class="ri-dot" style="background:var(--cyan)"></div><div><div class="ri-name">Portal de Dados Abertos</div><div class="ri-desc">Governo brasileiro — dados públicos</div></div></a>
-      <a class="res-item" href="https://research.google/tools/datasets/" target="_blank"><div class="ri-dot" style="background:var(--amber)"></div><div><div class="ri-name">Google Dataset Search</div><div class="ri-desc">Motor de busca de datasets globais</div></div></a>
-      <a class="res-item" href="https://dadosabertos.capes.gov.br/dataset" target="_blank"><div class="ri-dot" style="background:var(--violet)"></div><div><div class="ri-name">Dados Abertos Capes</div><div class="ri-desc">Pós-graduação e pesquisa brasileira</div></div></a>
-      <a class="res-item" href="https://ckan.org/" target="_blank"><div class="ri-dot" style="background:var(--electric)"></div><div><div class="ri-name">CKAN</div><div class="ri-desc">Plataforma de dados abertos</div></div></a>
-    </div>
-    <div>
-      <div class="res-col-head" style="color:var(--violet)">📖 Leituras &amp; Aulas</div>
-      <a class="res-item" href="https://r4ds.had.co.nz/" target="_blank"><div class="ri-dot" style="background:var(--neon)"></div><div><div class="ri-name">R for Data Science</div><div class="ri-desc">Hadley Wickham — referência mundial</div></div></a>
-      <a class="res-item" href="https://cdr.ibpad.com.br/" target="_blank"><div class="ri-dot" style="background:var(--cyan)"></div><div><div class="ri-name">Ciências de Dados com R</div><div class="ri-desc">IBPAD — em português brasileiro</div></div></a>
-      <a class="res-item" href="https://classroom.google.com/c/NTM2MTUyODExNTJa" target="_blank"><div class="ri-dot" style="background:var(--amber)"></div><div><div class="ri-name">Sala Sir Ronald Fisher</div><div class="ri-desc">Google Classroom — turma ativa</div></div></a>
-      <a class="res-item" href="https://jairandionizio.github.io/estabraco/material.html" target="_blank"><div class="ri-dot" style="background:var(--violet)"></div><div><div class="ri-name">Material de Apoio Completo</div><div class="ri-desc">Todos os recursos do professor</div></div></a>
-      <a class="res-item" href="https://www.youtube.com/@estabraco" target="_blank"><div class="ri-dot" style="background:var(--rose)"></div><div><div class="ri-name">Canal Estabraço</div><div class="ri-desc">YouTube — videoaulas gratuitas</div></div></a>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════
      STRAT.CG — Programa de Convivência Empresarial
 ════════════════════════════════════════════════════ -->
 
-<!-- HERO STRAT.CG -->
-<section class="stratcg-hero" id="stratcg">
-  <div class="sg-hero-left">
-    <div class="sg-logo-badge reveal"><span></span>Programa Corporativo · Prof. Jairan Dionizio</div>
-    <h2 class="sg-hero-title reveal">
-      <span class="vi">STRAT.CG</span><br>
-      Convivência<br>
-      Estratégica<br>para Resultados
-    </h2>
-    <p class="sg-hero-desc reveal">
-      Programa estruturado para o desenvolvimento de <strong>capacidades dinâmicas organizacionais</strong> por meio da construção e fortalecimento das relações estratégicas entre consultores e gestores no ambiente corporativo.
+  <!-- HERO STRAT.CG -->
+  <section class="stratcg-hero" id="stratcg">
+    <div class="sg-hero-left">
+      <div class="sg-logo-badge reveal"><span></span>Programa Corporativo · Prof. Jairan Dionizio</div>
+      <h2 class="sg-hero-title reveal">
+        <span class="vi">STRAT.CG</span><br>
+        Convivência<br>
+        Estratégica<br>para Resultados
+      </h2>
+      <p class="sg-hero-desc reveal">
+        Programa estruturado para o desenvolvimento de <strong>capacidades dinâmicas organizacionais</strong> por meio
+        da construção e fortalecimento das relações estratégicas entre consultores e gestores no ambiente corporativo.
+      </p>
+      <div class="sg-hero-ctas reveal">
+        <a class="btn-violet" href="#sg-sobre">Conheça o Programa</a>
+        <a class="btn-violet-outline" href="#sg-cta">Fale com Jairan</a>
+      </div>
+    </div>
+    <div class="sg-hero-right">
+      <img class="sg-hero-img" src="1_Prof-Jairan-Dionizio.png" alt="Prof. Jairan Dionizio — STRAT.CG">
+      <div class="sg-pillars">
+        <div class="sg-pillar">
+          <span class="sg-pillar-icon">👁</span>
+          <div class="sg-pillar-t">Percepção</div>
+          <div class="sg-pillar-s">Identificar oportunidades e sinais do mercado</div>
+        </div>
+        <div class="sg-pillar">
+          <span class="sg-pillar-icon">⚡</span>
+          <div class="sg-pillar-t">Mobilização</div>
+          <div class="sg-pillar-s">Alocar recursos e capturar oportunidades</div>
+        </div>
+        <div class="sg-pillar">
+          <span class="sg-pillar-icon">🔄</span>
+          <div class="sg-pillar-t">Transformação</div>
+          <div class="sg-pillar-s">Reconfigurar capacidades para competir</div>
+        </div>
+        <div class="sg-pillar" style="border-color:rgba(167,139,250,.4)">
+          <span class="sg-pillar-icon">🤝</span>
+          <div class="sg-pillar-t" style="color:var(--violet)">Relação Estratégica</div>
+          <div class="sg-pillar-s">Fortalecer vínculo consultor–gestor</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE O MENTOR -->
+  <div class="sg-about" id="sg-sobre">
+    <div class="sg-about-left">
+      <div class="reveal">
+        <img class="sg-photo" src="/mnt/user-data/uploads/3_Prof-Jairan-Dionizio-STRATCG.png"
+          alt="Prof. Jairan Dionizio">
+      </div>
+    </div>
+    <div class="sg-about-right">
+      <div class="reveal">
+        <div class="sg-label">Mentor do Programa</div>
+        <div class="sg-about-name">Prof. Jairan Dionizio</div>
+        <div class="sg-about-role">STRAT.CG — Consultor Estratégico</div>
+        <p class="sg-about-body">
+          Jairan Dionizio é <strong>Estatístico com Mestrado em Desenvolvimento Sustentável de Processos e Produto com
+            base em dados</strong>. Com sólida atuação em ambientes corporativos complexos e em constante transformação.
+        </p>
+        <p class="sg-about-body">
+          Com uma trajetória marcada pela escuta estratégica, facilitação de processos colaborativos e foco em
+          resultados sustentáveis, Dionizio se destaca como um articulador entre a gestão, a consultoria e o mercado,
+          promovendo alianças genuínas e relações de confiança.
+        </p>
+        <p class="sg-about-body">
+          Ao longo de <strong>mais de 15 anos de experiência</strong>, atuou como consultor interno e externo em
+          empresas de médio e grande porte, participando de programas de transformação cultural, redesenho de processos
+          e fortalecimento de competências relacionais.
+        </p>
+        <blockquote class="sg-about-quote">
+          "Como Mentor do STRAT.CG, conduzo os participantes em uma jornada prática, reflexiva e provocadora, baseada na
+          inteligência relacional e no fortalecimento da atuação consultiva em ecossistemas corporativos."
+        </blockquote>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAPACIDADES DINÂMICAS -->
+  <section class="sg-section alt">
+    <div class="reveal">
+      <div class="sg-label">Fundamentação Teórica</div>
+      <h2 class="sg-h2">Capacidades <em>Dinâmicas</em></h2>
+      <p class="sg-p">Fundamentado no modelo de <strong style="color:var(--text)">Sensing, Seizing e
+          Transforming</strong> de David Teece — o programa estrutura a relação consultor–gestor como mecanismo
+        estratégico para ampliar a capacidade organizacional de perceber, mobilizar e se transformar.</p>
+    </div>
+    <div class="sg-caps reveal">
+      <div class="sg-cap">
+        <div class="sg-cap-num">01</div>
+        <span class="sg-cap-icon">🔭</span>
+        <div class="sg-cap-title">Sensing</div>
+        <div class="sg-cap-sub">Leitura do Ambiente</div>
+        <p class="sg-cap-body">Aprimoramento da leitura do ambiente interno e externo. Identificação de riscos,
+          oportunidades e lacunas organizacionais. Comunicação e alinhamento de expectativas.</p>
+      </div>
+      <div class="sg-cap">
+        <div class="sg-cap-num">02</div>
+        <span class="sg-cap-icon">⚙️</span>
+        <div class="sg-cap-title">Seizing</div>
+        <div class="sg-cap-sub">Mobilização de Recursos</div>
+        <p class="sg-cap-body">Estruturação de decisões estratégicas, priorização de iniciativas e mobilização
+          coordenada de recursos. Liderança, governança e gestão de projetos.</p>
+      </div>
+      <div class="sg-cap">
+        <div class="sg-cap-num">03</div>
+        <span class="sg-cap-icon">🔄</span>
+        <div class="sg-cap-title">Transforming</div>
+        <div class="sg-cap-sub">Reconfiguração Organizacional</div>
+        <p class="sg-cap-body">Reconfiguração de processos, fortalecimento de rotinas estratégicas e consolidação da
+          aprendizagem organizacional. Adaptação e renovação contínua.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIRETRIZES DO PROGRAMA -->
+  <section class="sg-section" id="sg-diretrizes">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start" class="reveal">
+      <div>
+        <div class="sg-label">Diretrizes Gerais</div>
+        <h2 class="sg-h2">Como o<br><em>Programa</em><br>funciona</h2>
+      </div>
+      <div>
+        <p class="sg-p">Sua metodologia combina <strong style="color:var(--text)">encontros híbridos</strong>,
+          presenciais e online, integrando profundidade estratégica e flexibilidade operacional.</p>
+        <p class="sg-p" style="margin-top:1rem">Duração flexível de <strong style="color:var(--violet)">3 a 6
+            meses</strong>, com certificação baseada em avaliação contínua e apresentação de projetos práticos.</p>
+      </div>
+    </div>
+    <div class="sg-timeline reveal">
+      <div class="sg-tline-item">
+        <div class="sg-tline-label">①</div>
+        <div class="sg-tline-content">
+          <div class="sg-tline-title">Sessões Presenciais</div>
+          <p class="sg-tline-body">Concentram-se na construção de alinhamento, confiança e tomada de decisão
+            estruturada. Mentorias cruzadas e dinâmicas aplicadas com simulação de desafios reais.</p>
+        </div>
+      </div>
+      <div class="sg-tline-item">
+        <div class="sg-tline-label">②</div>
+        <div class="sg-tline-content">
+          <div class="sg-tline-title">Sessões Online</div>
+          <p class="sg-tline-body">Ampliam a capacidade analítica e o acompanhamento técnico contínuo. Experiências
+            imersivas e laboratórios de reconfiguração organizacional.</p>
+        </div>
+      </div>
+      <div class="sg-tline-item">
+        <div class="sg-tline-label">③</div>
+        <div class="sg-tline-content">
+          <div class="sg-tline-title">Certificação</div>
+          <p class="sg-tline-body">Baseada em avaliação contínua e na apresentação de projetos práticos que demonstrem a
+            evolução nas dimensões de Sensing, Seizing e Transforming.</p>
+        </div>
+      </div>
+      <div class="sg-tline-item">
+        <div class="sg-tline-label">④</div>
+        <div class="sg-tline-content">
+          <div class="sg-tline-title">Público-Alvo</div>
+          <p class="sg-tline-body">Consultores estratégicos, gestores empresariais e organizações em fase de
+            crescimento, reposicionamento ou consolidação estratégica que buscam profissionalizar sua governança.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARQUITETURA — 4 MÓDULOS -->
+  <section class="sg-section dark">
+    <div class="reveal">
+      <div class="sg-label">Arquitetura do Programa</div>
+      <h2 class="sg-h2">4 <em>Módulos</em> Estruturados</h2>
+      <p class="sg-p">Construção progressiva de habilidades e conhecimentos essenciais à convivência consultiva e
+        estratégica.</p>
+    </div>
+    <div class="sg-modules reveal">
+      <div class="sg-mod">
+        <div class="sg-mod-num">0</div>
+        <div class="sg-mod-title">Bases da Convivência Empresarial</div>
+        <p class="sg-mod-body">Estabelece o alinhamento de papéis e expectativas, introduzindo conceitos fundamentais
+          para uma convivência colaborativa, apoiada por ferramentas como o Canvas de Convivência e a Roda de Estilo
+          Relacional.</p>
+      </div>
+      <div class="sg-mod">
+        <div class="sg-mod-num">1</div>
+        <div class="sg-mod-title">Cultura Organizacional e Convivência Contextual</div>
+        <p class="sg-mod-body">Aproxima o entendimento da cultura empresarial ao perfil de convivência, investigando
+          percepções de autoridade e colaboração para ajustar a atuação ao estilo do gestor e da equipe.</p>
+      </div>
+      <div class="sg-mod">
+        <div class="sg-mod-num">2</div>
+        <div class="sg-mod-title">Comunicação Consultiva e Alinhamento de Expectativas</div>
+        <p class="sg-mod-body">Explora a comunicação como instrumento estratégico, enfatizando feedback construtivo,
+          escuta ativa e pactuações transparentes de metas e entregas.</p>
+      </div>
+      <div class="sg-mod">
+        <div class="sg-mod-num">3</div>
+        <div class="sg-mod-title">Inteligência Emocional e Convivência sob Pressão</div>
+        <p class="sg-mod-body">Desenvolve competências emocionais para lidar com pressão, identificando estilos
+          emocionais e aplicando técnicas de autogestão para reduzir conflitos e ruídos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENTREGÁVEIS -->
+  <section class="sg-section alt">
+    <div class="reveal">
+      <div class="sg-label">Entregáveis e Recursos</div>
+      <h2 class="sg-h2">O que você <em>recebe</em></h2>
+      <p class="sg-p">Recursos e entregáveis cuidadosamente elaborados para potencializar a aplicação dos conceitos e o
+        monitoramento das interações.</p>
+    </div>
+    <div class="sg-delivs reveal">
+      <div class="sg-deliv">
+        <span class="sg-deliv-icon" style="color:var(--violet)">🗺</span>
+        <div class="sg-deliv-title">Mapa Relacional Consultor-Gestor</div>
+        <p class="sg-deliv-body">Diagrama detalhado que representa as conexões, influências e pontos de interação entre
+          as partes, facilitando a visualização dos relacionamentos essenciais.</p>
+      </div>
+      <div class="sg-deliv">
+        <span class="sg-deliv-icon" style="color:var(--cyan)">📓</span>
+        <div class="sg-deliv-title">Diário de Convivência Empresarial</div>
+        <p class="sg-deliv-body">Ferramenta de registro contínuo das interações e reflexões, promovendo o
+          autoconhecimento e a identificação de áreas para melhoria.</p>
+      </div>
+      <div class="sg-deliv">
+        <span class="sg-deliv-icon" style="color:var(--neon)">📊</span>
+        <div class="sg-deliv-title">Painel de Indicadores de Relacionamento</div>
+        <p class="sg-deliv-body">Dashboard com dados quantitativos e qualitativos sobre a qualidade da convivência, a
+          evolução dos acordos e os impactos gerados.</p>
+      </div>
+      <div class="sg-deliv">
+        <span class="sg-deliv-icon" style="color:var(--amber)">📋</span>
+        <div class="sg-deliv-title">Plano de Convivência Integrado</div>
+        <p class="sg-deliv-body">Documento conjunto elaborado por consultor e gestor que define metas, responsabilidades
+          e estratégias para fortalecer a parceria.</p>
+      </div>
+      <div class="sg-deliv">
+        <span class="sg-deliv-icon" style="color:var(--rose)">💬</span>
+        <div class="sg-deliv-title">Guia de Conversas Estratégicas</div>
+        <p class="sg-deliv-body">Orientações para conduzir diálogos eficientes, com sugestões de frequência (mensal ou
+          quinzenal), temas e técnicas para maximizar o alinhamento e o engajamento.</p>
+      </div>
+      <div class="sg-deliv" style="background:rgba(167,139,250,.06);border-color:rgba(167,139,250,.25)">
+        <span class="sg-deliv-icon">🏆</span>
+        <div class="sg-deliv-title" style="color:var(--violet)">Certificação</div>
+        <p class="sg-deliv-body">Certificado baseado em avaliação contínua e apresentação de projetos práticos
+          demonstrando evolução nas três dimensões do programa.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTADOS ESPERADOS -->
+  <section class="sg-section">
+    <div class="reveal">
+      <div class="sg-label">Resultados Esperados</div>
+      <h2 class="sg-h2">O que muda na sua <em>organização</em></h2>
+      <p class="sg-p">A implementação do Programa STRAT.CG promove benefícios concretos para organizações e
+        profissionais envolvidos.</p>
+    </div>
+    <div class="sg-results reveal">
+      <div class="sg-result">
+        <div class="sg-result-title">🤝 Ambiente Colaborativo e Confiável</div>
+        <p class="sg-result-body">Construção e consolidação de um ambiente colaborativo e confiável entre consultores e
+          gestores, fortalecendo a confiança mútua e a transparência nas relações.</p>
+      </div>
+      <div class="sg-result">
+        <div class="sg-result-title">📈 Ampliação do Impacto da Consultoria</div>
+        <p class="sg-result-body">Ampliação do impacto da consultoria junto ao negócio, com foco em resultados tangíveis
+          e alinhados às metas estratégicas da organização.</p>
+      </div>
+      <div class="sg-result">
+        <div class="sg-result-title">🔇 Redução de Ruídos e Conflitos</div>
+        <p class="sg-result-body">Redução significativa de ruídos, conflitos e resistências que possam comprometer a
+          efetividade das parcerias e dos projetos.</p>
+      </div>
+      <div class="sg-result">
+        <div class="sg-result-title">🏛 Consolidação da Convivência Empresarial</div>
+        <p class="sg-result-body">Consolidação da convivência empresarial como peça central das estratégias de gestão e
+          performance, promovendo a cultura de cooperação e aprendizado contínuo.</p>
+      </div>
+    </div>
+    <p class="sg-p reveal"
+      style="margin-top:3rem;border-left:2px solid var(--violet);padding-left:1.5rem;max-width:70ch">
+      Esses resultados contribuem para uma integração mais fluida e produtiva entre consultores e gestores,
+      fundamentando decisões com base na confiança e em dados e elevando a maturidade organizacional no trato das
+      relações profissionais.
     </p>
-    <div class="sg-hero-ctas reveal">
-      <a class="btn-violet" href="#sg-sobre">Conheça o Programa</a>
-      <a class="btn-violet-outline" href="#sg-cta">Fale com Jairan</a>
-    </div>
-  </div>
-  <div class="sg-hero-right">
-    <img class="sg-hero-img" src="/mnt/user-data/uploads/1_Prof-Jairan-Dionizio.png" alt="Prof. Jairan Dionizio — STRAT.CG">
-    <div class="sg-pillars">
-      <div class="sg-pillar">
-        <span class="sg-pillar-icon">👁</span>
-        <div class="sg-pillar-t">Percepção</div>
-        <div class="sg-pillar-s">Identificar oportunidades e sinais do mercado</div>
-      </div>
-      <div class="sg-pillar">
-        <span class="sg-pillar-icon">⚡</span>
-        <div class="sg-pillar-t">Mobilização</div>
-        <div class="sg-pillar-s">Alocar recursos e capturar oportunidades</div>
-      </div>
-      <div class="sg-pillar">
-        <span class="sg-pillar-icon">🔄</span>
-        <div class="sg-pillar-t">Transformação</div>
-        <div class="sg-pillar-s">Reconfigurar capacidades para competir</div>
-      </div>
-      <div class="sg-pillar" style="border-color:rgba(167,139,250,.4)">
-        <span class="sg-pillar-icon">🤝</span>
-        <div class="sg-pillar-t" style="color:var(--violet)">Relação Estratégica</div>
-        <div class="sg-pillar-s">Fortalecer vínculo consultor–gestor</div>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- SOBRE O MENTOR -->
-<div class="sg-about" id="sg-sobre">
-  <div class="sg-about-left">
+  <!-- GALERIA DE MATERIAIS -->
+  <section class="sg-section dark" style="padding-top:5rem;padding-bottom:5rem">
     <div class="reveal">
-      <img class="sg-photo" src="/mnt/user-data/uploads/3_Prof-Jairan-Dionizio-STRATCG.png" alt="Prof. Jairan Dionizio">
+      <div class="sg-label">Material do Programa</div>
+      <h2 class="sg-h2">Conteúdo <em>Visual</em></h2>
     </div>
-  </div>
-  <div class="sg-about-right">
-    <div class="reveal">
-      <div class="sg-label">Mentor do Programa</div>
-      <div class="sg-about-name">Prof. Jairan Dionizio</div>
-      <div class="sg-about-role">STRAT.CG — Consultor Estratégico</div>
-      <p class="sg-about-body">
-        Jairan Dionizio é <strong>Estatístico com Mestrado em Desenvolvimento Sustentável de Processos e Produto com base em dados</strong>. Com sólida atuação em ambientes corporativos complexos e em constante transformação.
-      </p>
-      <p class="sg-about-body">
-        Com uma trajetória marcada pela escuta estratégica, facilitação de processos colaborativos e foco em resultados sustentáveis, Dionizio se destaca como um articulador entre a gestão, a consultoria e o mercado, promovendo alianças genuínas e relações de confiança.
-      </p>
-      <p class="sg-about-body">
-        Ao longo de <strong>mais de 15 anos de experiência</strong>, atuou como consultor interno e externo em empresas de médio e grande porte, participando de programas de transformação cultural, redesenho de processos e fortalecimento de competências relacionais.
-      </p>
-      <blockquote class="sg-about-quote">
-        "Como Mentor do STRAT.CG, conduzo os participantes em uma jornada prática, reflexiva e provocadora, baseada na inteligência relacional e no fortalecimento da atuação consultiva em ecossistemas corporativos."
-      </blockquote>
-    </div>
-  </div>
-</div>
-
-<!-- CAPACIDADES DINÂMICAS -->
-<section class="sg-section alt">
-  <div class="reveal">
-    <div class="sg-label">Fundamentação Teórica</div>
-    <h2 class="sg-h2">Capacidades <em>Dinâmicas</em></h2>
-    <p class="sg-p">Fundamentado no modelo de <strong style="color:var(--text)">Sensing, Seizing e Transforming</strong> de David Teece — o programa estrutura a relação consultor–gestor como mecanismo estratégico para ampliar a capacidade organizacional de perceber, mobilizar e se transformar.</p>
-  </div>
-  <div class="sg-caps reveal">
-    <div class="sg-cap">
-      <div class="sg-cap-num">01</div>
-      <span class="sg-cap-icon">🔭</span>
-      <div class="sg-cap-title">Sensing</div>
-      <div class="sg-cap-sub">Leitura do Ambiente</div>
-      <p class="sg-cap-body">Aprimoramento da leitura do ambiente interno e externo. Identificação de riscos, oportunidades e lacunas organizacionais. Comunicação e alinhamento de expectativas.</p>
-    </div>
-    <div class="sg-cap">
-      <div class="sg-cap-num">02</div>
-      <span class="sg-cap-icon">⚙️</span>
-      <div class="sg-cap-title">Seizing</div>
-      <div class="sg-cap-sub">Mobilização de Recursos</div>
-      <p class="sg-cap-body">Estruturação de decisões estratégicas, priorização de iniciativas e mobilização coordenada de recursos. Liderança, governança e gestão de projetos.</p>
-    </div>
-    <div class="sg-cap">
-      <div class="sg-cap-num">03</div>
-      <span class="sg-cap-icon">🔄</span>
-      <div class="sg-cap-title">Transforming</div>
-      <div class="sg-cap-sub">Reconfiguração Organizacional</div>
-      <p class="sg-cap-body">Reconfiguração de processos, fortalecimento de rotinas estratégicas e consolidação da aprendizagem organizacional. Adaptação e renovação contínua.</p>
-    </div>
-  </div>
-</section>
-
-<!-- DIRETRIZES DO PROGRAMA -->
-<section class="sg-section" id="sg-diretrizes">
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start" class="reveal">
-    <div>
-      <div class="sg-label">Diretrizes Gerais</div>
-      <h2 class="sg-h2">Como o<br><em>Programa</em><br>funciona</h2>
-    </div>
-    <div>
-      <p class="sg-p">Sua metodologia combina <strong style="color:var(--text)">encontros híbridos</strong>, presenciais e online, integrando profundidade estratégica e flexibilidade operacional.</p>
-      <p class="sg-p" style="margin-top:1rem">Duração flexível de <strong style="color:var(--violet)">3 a 6 meses</strong>, com certificação baseada em avaliação contínua e apresentação de projetos práticos.</p>
-    </div>
-  </div>
-  <div class="sg-timeline reveal">
-    <div class="sg-tline-item">
-      <div class="sg-tline-label">①</div>
-      <div class="sg-tline-content">
-        <div class="sg-tline-title">Sessões Presenciais</div>
-        <p class="sg-tline-body">Concentram-se na construção de alinhamento, confiança e tomada de decisão estruturada. Mentorias cruzadas e dinâmicas aplicadas com simulação de desafios reais.</p>
+    <div class="sg-gallery reveal" style="margin-top:3rem">
+      <div class="sg-gallery-item" data-caption="Programa de Convivência Empresarial">
+        <img class="sg-gallery-img"
+          src="/mnt/user-data/uploads/2_STRATCG-Programa-de-Convivencia-Empresarial-entre-Consultor-e-Gestor.png"
+          alt="Programa STRAT.CG">
+      </div>
+      <div class="sg-gallery-item" data-caption="Diretrizes Gerais do STRAT.CG">
+        <img class="sg-gallery-img" src="/mnt/user-data/uploads/4_Diretrizes-Gerais-do-STRATCG.png"
+          alt="Diretrizes STRAT.CG">
+      </div>
+      <div class="sg-gallery-item" data-caption="Arquitetura e Módulos">
+        <img class="sg-gallery-img" src="/mnt/user-data/uploads/5_Arquitetura-do-STRATCG.png"
+          alt="Arquitetura STRAT.CG">
+      </div>
+      <div class="sg-gallery-item" data-caption="Entregáveis e Recursos Práticos">
+        <img class="sg-gallery-img"
+          src="/mnt/user-data/uploads/6_Entregaveis-e-Recursos-Praticos-do-Programa-STRATCG.png"
+          alt="Entregáveis STRAT.CG">
+      </div>
+      <div class="sg-gallery-item" data-caption="Resultados Esperados">
+        <img class="sg-gallery-img" src="/mnt/user-data/uploads/7_Resultados-Esperados-com-o-Programa-STRATCG.png"
+          alt="Resultados STRAT.CG">
+      </div>
+      <div class="sg-gallery-item" data-caption="Prof. Jairan Dionizio — STRAT.CG">
+        <img class="sg-gallery-img" src="/mnt/user-data/uploads/8_Prof-Jairan-Dionizio-STRATCG.png"
+          alt="Encerramento STRAT.CG">
       </div>
     </div>
-    <div class="sg-tline-item">
-      <div class="sg-tline-label">②</div>
-      <div class="sg-tline-content">
-        <div class="sg-tline-title">Sessões Online</div>
-        <p class="sg-tline-body">Ampliam a capacidade analítica e o acompanhamento técnico contínuo. Experiências imersivas e laboratórios de reconfiguração organizacional.</p>
+  </section>
+
+  <!-- CTA STRAT.CG -->
+  <div class="sg-cta-strip" id="sg-cta">
+    <h2 class="sg-h2" style="color:var(--text)">Pronto para transformar<br><em>sua convivência empresarial?</em></h2>
+    <p class="sg-p" style="color:var(--muted)">O STRAT.CG não se limita à melhoria da convivência estratégica. Ele
+      estrutura a base para <strong style="color:var(--text)">vantagem competitiva sustentável</strong> por meio da
+      capacidade construída.</p>
+    <div class="sg-cta-actions">
+      <a class="btn-violet" href="https://br.linkedin.com/in/jairan-dionizio" target="_blank">Falar com Jairan no
+        LinkedIn</a>
+      <a class="btn-violet-outline" href="https://jairandionizio.github.io/estabraco/contact.html"
+        target="_blank">Formulário de Contato</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand"><span>∫</span> Jairan Dionizio</div>
+        <p class="footer-tag">'Estatisticando com a variabilidade do viver'<br>Hub de Aprendizagem em Estatística, Data
+          Science<br>e Métodos de Decisão Multicritério.</p>
+        <div class="footer-social">
+          <a class="si" href="https://github.com/jairandionizio" target="_blank">⌥</a>
+          <a class="si" href="https://br.linkedin.com/in/jairan-dionizio" target="_blank">in</a>
+          <a class="si" href="https://www.youtube.com/@estabraco" target="_blank">▶</a>
+          <a class="si" href="http://lattes.cnpq.br/8948545220815883" target="_blank">📋</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Hub</h4>
+        <ul>
+          <li><a href="https://jairandionizio.github.io/estabraco/softwares.html" target="_blank">Softwares</a></li>
+          <li><a href="https://jairandionizio.github.io/estabraco/post.html" target="_blank">Datasets</a></li>
+          <li><a href="https://jairandionizio.github.io/estabraco/material.html" target="_blank">Material de Apoio</a>
+          </li>
+          <li><a href="https://jairandionizio.github.io/estabraco/M&A.html" target="_blank">M&amp;A Multicritério</a>
+          </li>
+          <li><a href="https://classroom.google.com/c/NTM2MTUyODExNTJa" target="_blank">Sala de Aula</a></li>
+          <li><a href="#stratcg" style="color:var(--violet)">STRAT.CG →</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Externo</h4>
+        <ul>
+          <li><a href="http://lattes.cnpq.br/8948545220815883" target="_blank">Currículo Lattes</a></li>
+          <li><a href="https://br.linkedin.com/in/jairan-dionizio" target="_blank">LinkedIn</a></li>
+          <li><a href="https://github.com/jairandionizio" target="_blank">GitHub</a></li>
+          <li><a href="https://www.youtube.com/@estabraco" target="_blank">Estabraço YouTube</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <ul>
+          <li><a href="https://jairandionizio.github.io/estabraco/contact.html" target="_blank">Formulário</a></li>
+          <li><a href="https://br.linkedin.com/in/jairan-dionizio" target="_blank">LinkedIn DM</a></li>
+        </ul>
       </div>
     </div>
-    <div class="sg-tline-item">
-      <div class="sg-tline-label">③</div>
-      <div class="sg-tline-content">
-        <div class="sg-tline-title">Certificação</div>
-        <p class="sg-tline-body">Baseada em avaliação contínua e na apresentação de projetos práticos que demonstrem a evolução nas dimensões de Sensing, Seizing e Transforming.</p>
-      </div>
+    <div class="footer-bottom">
+      <p class="fc">© 2026 Prof. Jairan Dionizio (F.J.D. Pedro)</p>
+      <p class="fc" style="color:var(--electric)">∫ Estabraço — o aconchego da variabilidade!</p>
     </div>
-    <div class="sg-tline-item">
-      <div class="sg-tline-label">④</div>
-      <div class="sg-tline-content">
-        <div class="sg-tline-title">Público-Alvo</div>
-        <p class="sg-tline-body">Consultores estratégicos, gestores empresariais e organizações em fase de crescimento, reposicionamento ou consolidação estratégica que buscam profissionalizar sua governança.</p>
-      </div>
-    </div>
-  </div>
-</section>
+  </footer>
 
-<!-- ARQUITETURA — 4 MÓDULOS -->
-<section class="sg-section dark">
-  <div class="reveal">
-    <div class="sg-label">Arquitetura do Programa</div>
-    <h2 class="sg-h2">4 <em>Módulos</em> Estruturados</h2>
-    <p class="sg-p">Construção progressiva de habilidades e conhecimentos essenciais à convivência consultiva e estratégica.</p>
-  </div>
-  <div class="sg-modules reveal">
-    <div class="sg-mod">
-      <div class="sg-mod-num">0</div>
-      <div class="sg-mod-title">Bases da Convivência Empresarial</div>
-      <p class="sg-mod-body">Estabelece o alinhamento de papéis e expectativas, introduzindo conceitos fundamentais para uma convivência colaborativa, apoiada por ferramentas como o Canvas de Convivência e a Roda de Estilo Relacional.</p>
-    </div>
-    <div class="sg-mod">
-      <div class="sg-mod-num">1</div>
-      <div class="sg-mod-title">Cultura Organizacional e Convivência Contextual</div>
-      <p class="sg-mod-body">Aproxima o entendimento da cultura empresarial ao perfil de convivência, investigando percepções de autoridade e colaboração para ajustar a atuação ao estilo do gestor e da equipe.</p>
-    </div>
-    <div class="sg-mod">
-      <div class="sg-mod-num">2</div>
-      <div class="sg-mod-title">Comunicação Consultiva e Alinhamento de Expectativas</div>
-      <p class="sg-mod-body">Explora a comunicação como instrumento estratégico, enfatizando feedback construtivo, escuta ativa e pactuações transparentes de metas e entregas.</p>
-    </div>
-    <div class="sg-mod">
-      <div class="sg-mod-num">3</div>
-      <div class="sg-mod-title">Inteligência Emocional e Convivência sob Pressão</div>
-      <p class="sg-mod-body">Desenvolve competências emocionais para lidar com pressão, identificando estilos emocionais e aplicando técnicas de autogestão para reduzir conflitos e ruídos.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ENTREGÁVEIS -->
-<section class="sg-section alt">
-  <div class="reveal">
-    <div class="sg-label">Entregáveis e Recursos</div>
-    <h2 class="sg-h2">O que você <em>recebe</em></h2>
-    <p class="sg-p">Recursos e entregáveis cuidadosamente elaborados para potencializar a aplicação dos conceitos e o monitoramento das interações.</p>
-  </div>
-  <div class="sg-delivs reveal">
-    <div class="sg-deliv">
-      <span class="sg-deliv-icon" style="color:var(--violet)">🗺</span>
-      <div class="sg-deliv-title">Mapa Relacional Consultor-Gestor</div>
-      <p class="sg-deliv-body">Diagrama detalhado que representa as conexões, influências e pontos de interação entre as partes, facilitando a visualização dos relacionamentos essenciais.</p>
-    </div>
-    <div class="sg-deliv">
-      <span class="sg-deliv-icon" style="color:var(--cyan)">📓</span>
-      <div class="sg-deliv-title">Diário de Convivência Empresarial</div>
-      <p class="sg-deliv-body">Ferramenta de registro contínuo das interações e reflexões, promovendo o autoconhecimento e a identificação de áreas para melhoria.</p>
-    </div>
-    <div class="sg-deliv">
-      <span class="sg-deliv-icon" style="color:var(--neon)">📊</span>
-      <div class="sg-deliv-title">Painel de Indicadores de Relacionamento</div>
-      <p class="sg-deliv-body">Dashboard com dados quantitativos e qualitativos sobre a qualidade da convivência, a evolução dos acordos e os impactos gerados.</p>
-    </div>
-    <div class="sg-deliv">
-      <span class="sg-deliv-icon" style="color:var(--amber)">📋</span>
-      <div class="sg-deliv-title">Plano de Convivência Integrado</div>
-      <p class="sg-deliv-body">Documento conjunto elaborado por consultor e gestor que define metas, responsabilidades e estratégias para fortalecer a parceria.</p>
-    </div>
-    <div class="sg-deliv">
-      <span class="sg-deliv-icon" style="color:var(--rose)">💬</span>
-      <div class="sg-deliv-title">Guia de Conversas Estratégicas</div>
-      <p class="sg-deliv-body">Orientações para conduzir diálogos eficientes, com sugestões de frequência (mensal ou quinzenal), temas e técnicas para maximizar o alinhamento e o engajamento.</p>
-    </div>
-    <div class="sg-deliv" style="background:rgba(167,139,250,.06);border-color:rgba(167,139,250,.25)">
-      <span class="sg-deliv-icon">🏆</span>
-      <div class="sg-deliv-title" style="color:var(--violet)">Certificação</div>
-      <p class="sg-deliv-body">Certificado baseado em avaliação contínua e apresentação de projetos práticos demonstrando evolução nas três dimensões do programa.</p>
-    </div>
-  </div>
-</section>
-
-<!-- RESULTADOS ESPERADOS -->
-<section class="sg-section">
-  <div class="reveal">
-    <div class="sg-label">Resultados Esperados</div>
-    <h2 class="sg-h2">O que muda na sua <em>organização</em></h2>
-    <p class="sg-p">A implementação do Programa STRAT.CG promove benefícios concretos para organizações e profissionais envolvidos.</p>
-  </div>
-  <div class="sg-results reveal">
-    <div class="sg-result">
-      <div class="sg-result-title">🤝 Ambiente Colaborativo e Confiável</div>
-      <p class="sg-result-body">Construção e consolidação de um ambiente colaborativo e confiável entre consultores e gestores, fortalecendo a confiança mútua e a transparência nas relações.</p>
-    </div>
-    <div class="sg-result">
-      <div class="sg-result-title">📈 Ampliação do Impacto da Consultoria</div>
-      <p class="sg-result-body">Ampliação do impacto da consultoria junto ao negócio, com foco em resultados tangíveis e alinhados às metas estratégicas da organização.</p>
-    </div>
-    <div class="sg-result">
-      <div class="sg-result-title">🔇 Redução de Ruídos e Conflitos</div>
-      <p class="sg-result-body">Redução significativa de ruídos, conflitos e resistências que possam comprometer a efetividade das parcerias e dos projetos.</p>
-    </div>
-    <div class="sg-result">
-      <div class="sg-result-title">🏛 Consolidação da Convivência Empresarial</div>
-      <p class="sg-result-body">Consolidação da convivência empresarial como peça central das estratégias de gestão e performance, promovendo a cultura de cooperação e aprendizado contínuo.</p>
-    </div>
-  </div>
-  <p class="sg-p reveal" style="margin-top:3rem;border-left:2px solid var(--violet);padding-left:1.5rem;max-width:70ch">
-    Esses resultados contribuem para uma integração mais fluida e produtiva entre consultores e gestores, fundamentando decisões com base na confiança e em dados e elevando a maturidade organizacional no trato das relações profissionais.
-  </p>
-</section>
-
-<!-- GALERIA DE MATERIAIS -->
-<section class="sg-section dark" style="padding-top:5rem;padding-bottom:5rem">
-  <div class="reveal">
-    <div class="sg-label">Material do Programa</div>
-    <h2 class="sg-h2">Conteúdo <em>Visual</em></h2>
-  </div>
-  <div class="sg-gallery reveal" style="margin-top:3rem">
-    <div class="sg-gallery-item" data-caption="Programa de Convivência Empresarial">
-      <img class="sg-gallery-img" src="/mnt/user-data/uploads/2_STRATCG-Programa-de-Convivencia-Empresarial-entre-Consultor-e-Gestor.png" alt="Programa STRAT.CG">
-    </div>
-    <div class="sg-gallery-item" data-caption="Diretrizes Gerais do STRAT.CG">
-      <img class="sg-gallery-img" src="/mnt/user-data/uploads/4_Diretrizes-Gerais-do-STRATCG.png" alt="Diretrizes STRAT.CG">
-    </div>
-    <div class="sg-gallery-item" data-caption="Arquitetura e Módulos">
-      <img class="sg-gallery-img" src="/mnt/user-data/uploads/5_Arquitetura-do-STRATCG.png" alt="Arquitetura STRAT.CG">
-    </div>
-    <div class="sg-gallery-item" data-caption="Entregáveis e Recursos Práticos">
-      <img class="sg-gallery-img" src="/mnt/user-data/uploads/6_Entregaveis-e-Recursos-Praticos-do-Programa-STRATCG.png" alt="Entregáveis STRAT.CG">
-    </div>
-    <div class="sg-gallery-item" data-caption="Resultados Esperados">
-      <img class="sg-gallery-img" src="/mnt/user-data/uploads/7_Resultados-Esperados-com-o-Programa-STRATCG.png" alt="Resultados STRAT.CG">
-    </div>
-    <div class="sg-gallery-item" data-caption="Prof. Jairan Dionizio — STRAT.CG">
-      <img class="sg-gallery-img" src="/mnt/user-data/uploads/8_Prof-Jairan-Dionizio-STRATCG.png" alt="Encerramento STRAT.CG">
-    </div>
-  </div>
-</section>
-
-<!-- CTA STRAT.CG -->
-<div class="sg-cta-strip" id="sg-cta">
-  <h2 class="sg-h2" style="color:var(--text)">Pronto para transformar<br><em>sua convivência empresarial?</em></h2>
-  <p class="sg-p" style="color:var(--muted)">O STRAT.CG não se limita à melhoria da convivência estratégica. Ele estrutura a base para <strong style="color:var(--text)">vantagem competitiva sustentável</strong> por meio da capacidade construída.</p>
-  <div class="sg-cta-actions">
-    <a class="btn-violet" href="https://br.linkedin.com/in/jairan-dionizio" target="_blank">Falar com Jairan no LinkedIn</a>
-    <a class="btn-violet-outline" href="https://jairandionizio.github.io/estabraco/contact.html" target="_blank">Formulário de Contato</a>
-  </div>
-</div>
-
-<footer>
-  <div class="footer-top">
-    <div>
-      <div class="footer-brand"><span>∫</span> Jairan Dionizio</div>
-      <p class="footer-tag">'Estatisticando com a variabilidade do viver'<br>Hub de Aprendizagem em Estatística, Data Science<br>e Métodos de Decisão Multicritério.</p>
-      <div class="footer-social">
-        <a class="si" href="https://github.com/jairandionizio" target="_blank">⌥</a>
-        <a class="si" href="https://br.linkedin.com/in/jairan-dionizio" target="_blank">in</a>
-        <a class="si" href="https://www.youtube.com/@estabraco" target="_blank">▶</a>
-        <a class="si" href="http://lattes.cnpq.br/8948545220815883" target="_blank">📋</a>
-      </div>
-    </div>
-    <div class="footer-col">
-      <h4>Hub</h4>
-      <ul>
-        <li><a href="https://jairandionizio.github.io/estabraco/softwares.html" target="_blank">Softwares</a></li>
-        <li><a href="https://jairandionizio.github.io/estabraco/post.html" target="_blank">Datasets</a></li>
-        <li><a href="https://jairandionizio.github.io/estabraco/material.html" target="_blank">Material de Apoio</a></li>
-        <li><a href="https://jairandionizio.github.io/estabraco/M&A.html" target="_blank">M&amp;A Multicritério</a></li>
-        <li><a href="https://classroom.google.com/c/NTM2MTUyODExNTJa" target="_blank">Sala de Aula</a></li>
-        <li><a href="#stratcg" style="color:var(--violet)">STRAT.CG →</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Externo</h4>
-      <ul>
-        <li><a href="http://lattes.cnpq.br/8948545220815883" target="_blank">Currículo Lattes</a></li>
-        <li><a href="https://br.linkedin.com/in/jairan-dionizio" target="_blank">LinkedIn</a></li>
-        <li><a href="https://github.com/jairandionizio" target="_blank">GitHub</a></li>
-        <li><a href="https://www.youtube.com/@estabraco" target="_blank">Estabraço YouTube</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Contato</h4>
-      <ul>
-        <li><a href="https://jairandionizio.github.io/estabraco/contact.html" target="_blank">Formulário</a></li>
-        <li><a href="https://br.linkedin.com/in/jairan-dionizio" target="_blank">LinkedIn DM</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p class="fc">© 2026 Prof. Jairan Dionizio (F.J.D. Pedro)</p>
-    <p class="fc" style="color:var(--electric)">∫ Estabraço — o aconchego da variabilidade!</p>
-  </div>
-</footer>
-
-<script>
-// CURSOR
-const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
-(function loop(){rx+=(mx-rx)*.13;ry+=(my-ry)*.13;cur2.style.left=rx+'px';cur2.style.top=ry+'px';requestAnimationFrame(loop)})();
-document.querySelectorAll('a,button').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{cur2.style.width='54px';cur2.style.height='54px';cur2.style.borderColor='rgba(0,245,255,.8)'});
-  el.addEventListener('mouseleave',()=>{cur2.style.width='32px';cur2.style.height='32px';cur2.style.borderColor='rgba(0,245,255,.4)'});
-});
-
-// NAV
-window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>60));
-
-// REVEAL
-const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')}),{threshold:.1});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-
-// LERP
-function lerp(a,b,t){return a+(b-a)*t}
-
-// ── HERO CANVAS ──────────────────────────────────
-(()=>{
-  const c=document.getElementById('heroCanvas'),ctx=c.getContext('2d');
-  let W,H,pts=[];
-  const resize=()=>{W=c.width=c.offsetWidth;H=c.height=c.offsetHeight};
-  resize();window.addEventListener('resize',()=>{resize();init()});
-  const init=()=>{pts=[];const n=Math.floor(W*H/7000);for(let i=0;i<n;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:Math.random()*1.5+.5,a:Math.random()*Math.PI*2})};
-  init();
-  let t=0;
-  const draw=()=>{
-    ctx.clearRect(0,0,W,H);t+=.005;
-    // Sine waves
-    [[.007,80,40,'rgba(0,245,255,.055)',0],[.012,50,25,'rgba(167,139,250,.04)',2],[.018,35,18,'rgba(163,230,53,.03)',4]].forEach(([f,a,a2,col,ph])=>{
-      ctx.beginPath();ctx.strokeStyle=col;ctx.lineWidth=1.5;
-      for(let x=0;x<=W;x+=2){const y=H/2+Math.sin(x*f+t+ph)*a+Math.sin(x*f*2+t*.7+ph)*a2;x===0?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke()
+  <script>
+    // CURSOR
+    const cur = document.getElementById('cur'), cur2 = document.getElementById('cur2');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cur.style.left = mx + 'px'; cur.style.top = my + 'px' });
+    (function loop() { rx += (mx - rx) * .13; ry += (my - ry) * .13; cur2.style.left = rx + 'px'; cur2.style.top = ry + 'px'; requestAnimationFrame(loop) })();
+    document.querySelectorAll('a,button').forEach(el => {
+      el.addEventListener('mouseenter', () => { cur2.style.width = '54px'; cur2.style.height = '54px'; cur2.style.borderColor = 'rgba(0,245,255,.8)' });
+      el.addEventListener('mouseleave', () => { cur2.style.width = '32px'; cur2.style.height = '32px'; cur2.style.borderColor = 'rgba(0,245,255,.4)' });
     });
-    // Connections
-    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);if(d<130){ctx.beginPath();ctx.strokeStyle=`rgba(0,245,255,${.1*(1-d/130)})`;ctx.lineWidth=.5;ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.stroke()}}
-    // Dots
-    pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(56,189,248,.55)';ctx.fill()});
-    requestAnimationFrame(draw)
-  };draw()
-})();
 
-// ── NORMAL DIST ───────────────────────────────────
-(()=>{
-  const c=document.getElementById('cNormal'),ctx=c.getContext('2d');
-  let t=0;
-  const N=(x,mu,sig)=>Math.exp(-.5*((x-mu)/sig)**2)/(sig*Math.sqrt(2*Math.PI));
-  const draw=()=>{
-    const W=c.width=c.parentElement.clientWidth-32,H=c.height=160;
-    ctx.clearRect(0,0,W,H);t+=.012;
-    const mu=W/2+Math.sin(t)*W*.14,sig=38+Math.sin(t*.7)*10,pk=N(mu,mu,sig);
-    const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'rgba(0,245,255,.22)');g.addColorStop(1,'rgba(0,245,255,.01)');
-    ctx.beginPath();ctx.moveTo(0,H);
-    for(let x=0;x<=W;x++){const y=H-(N(x,mu,sig)/pk)*(H*.82)-H*.1;x===0?ctx.lineTo(x,H):ctx.lineTo(x,y)}
-    ctx.lineTo(W,H);ctx.closePath();ctx.fillStyle=g;ctx.fill();
-    ctx.beginPath();
-    for(let x=0;x<=W;x++){const y=H-(N(x,mu,sig)/pk)*(H*.82)-H*.1;x===0?ctx.moveTo(x,y):ctx.lineTo(x,y)}
-    ctx.strokeStyle='rgba(0,245,255,.85)';ctx.lineWidth=2;ctx.stroke();
-    // μ line
-    const my2=H-(H*.82)-H*.1;
-    ctx.beginPath();ctx.setLineDash([4,4]);ctx.moveTo(mu,my2+10);ctx.lineTo(mu,H);ctx.strokeStyle='rgba(163,230,53,.55)';ctx.lineWidth=1;ctx.stroke();ctx.setLineDash([]);
-    ctx.fillStyle='rgba(163,230,53,.8)';ctx.font="11px 'IBM Plex Mono'";ctx.fillText('μ',mu+5,my2+22);
-    requestAnimationFrame(draw)
-  };draw()
-})();
+    // NAV
+    window.addEventListener('scroll', () => document.getElementById('nav').classList.toggle('scrolled', scrollY > 60));
 
-// ── SCATTER + REGRESSION ─────────────────────────
-(()=>{
-  const c=document.getElementById('cScatter'),ctx=c.getContext('2d');
-  const N=40,pts=Array.from({length:N},()=>{const x=Math.random();return{x,y:.7*x+.15+(.5-Math.random())*.2,a:Math.random()*Math.PI*2}});
-  let t=0;
-  const draw=()=>{
-    const W=c.width=c.parentElement.clientWidth-32,H=c.height=280;
-    ctx.clearRect(0,0,W,H);t+=.008;
-    const pad=30;
-    // Axes
-    ctx.strokeStyle='rgba(100,116,139,.3)';ctx.lineWidth=1;ctx.beginPath();
-    ctx.moveTo(pad,pad);ctx.lineTo(pad,H-pad);ctx.moveTo(pad,H-pad);ctx.lineTo(W-pad,H-pad);ctx.stroke();
-    // Grid
-    for(let i=1;i<5;i++){ctx.beginPath();ctx.strokeStyle='rgba(100,116,139,.07)';const gy=pad+(H-2*pad)*i/5;ctx.moveTo(pad,gy);ctx.lineTo(W-pad,gy);ctx.stroke()}
-    // Map points
-    const mp=pts.map(p=>({cx:(p.x+Math.sin(t+p.a)*.012)*(W-2*pad)+pad,cy:H-pad-(p.y+Math.cos(t*.8+p.a)*.008)*(H-2*pad)}));
-    // Regression
-    const xs=mp.map(p=>(p.cx-pad)/(W-2*pad)),ys=mp.map(p=>(H-pad-p.cy)/(H-2*pad));
-    const n=xs.length,sx=xs.reduce((a,v)=>a+v,0),sy=ys.reduce((a,v)=>a+v,0),sxy=xs.reduce((a,v,i)=>a+v*ys[i],0),sx2=xs.reduce((a,v)=>a+v*v,0);
-    const b1=(n*sxy-sx*sy)/(n*sx2-sx*sx),b0=(sy-b1*sx)/n;
-    ctx.beginPath();ctx.moveTo(pad,H-pad-b0*(H-2*pad));ctx.lineTo(W-pad,H-pad-(b0+b1)*(H-2*pad));
-    ctx.strokeStyle='rgba(163,230,53,.75)';ctx.lineWidth=2;ctx.setLineDash([6,3]);ctx.stroke();ctx.setLineDash([]);
-    // Residuals
-    mp.forEach((p,i)=>{
-      const px=(p.cx-pad)/(W-2*pad);const predY=H-pad-(b0+b1*px)*(H-2*pad);
-      ctx.beginPath();ctx.moveTo(p.cx,p.cy);ctx.lineTo(p.cx,predY);ctx.strokeStyle='rgba(0,245,255,.12)';ctx.lineWidth=1;ctx.stroke()
-    });
-    // Points
-    mp.forEach(p=>{ctx.beginPath();ctx.arc(p.cx,p.cy,4,0,Math.PI*2);ctx.fillStyle='rgba(0,245,255,.65)';ctx.fill();ctx.strokeStyle='rgba(0,245,255,.25)';ctx.lineWidth=6;ctx.stroke();ctx.lineWidth=1});
-    ctx.fillStyle='rgba(100,116,139,.5)';ctx.font="10px 'IBM Plex Mono'";ctx.fillText('x',W-pad+5,H-pad+4);ctx.fillText('y',pad-14,pad+4);
-    requestAnimationFrame(draw)
-  };draw()
-})();
+    // REVEAL
+    const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis') }), { threshold: .1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-// ── HISTOGRAM ─────────────────────────────────────
-(()=>{
-  const c=document.getElementById('cBar'),ctx=c.getContext('2d');
-  const bins=12;let t=0;
-  const tgt=Array.from({length:bins},()=>Math.random()*.75+.15);
-  const norm=()=>{const m=Math.max(...tgt);tgt.forEach((_,i)=>tgt[i]/=m)};norm();
-  const cur=tgt.map(()=>0);
-  const draw=()=>{
-    const W=c.width=c.parentElement.clientWidth-32,H=c.height=160;
-    ctx.clearRect(0,0,W,H);t+=.025;
-    cur.forEach((v,i)=>{cur[i]=lerp(cur[i],tgt[i],.05)});
-    if(Math.random()<.003){const i=Math.floor(Math.random()*bins);tgt[i]=Math.random()*.8+.1;norm()}
-    const pad=10,bw=(W-2*pad)/bins;
-    cur.forEach((v,i)=>{
-      const x=pad+i*bw+bw*.08,bH=v*(H-pad*2.5),y=H-pad-bH,hue=195+i*11;
-      const g=ctx.createLinearGradient(0,y,0,H-pad);g.addColorStop(0,`hsla(${hue},90%,62%,.85)`);g.addColorStop(1,`hsla(${hue},90%,40%,.2)`);
-      ctx.fillStyle=g;ctx.fillRect(x,y,bw*.84,bH);
-      ctx.fillStyle=`hsla(${hue},90%,82%,.5)`;ctx.fillRect(x,y,bw*.84,2)
-    });
-    requestAnimationFrame(draw)
-  };draw()
-})();
+    // LERP
+    function lerp(a, b, t) { return a + (b - a) * t }
 
-// ── RADAR ─────────────────────────────────────────
-(()=>{
-  const c=document.getElementById('cRadar'),ctx=c.getContext('2d');
-  let t=0;
-  const labels=['Análise','Precisão','Método','Dados','Decisão','Visual'],n=labels.length;
-  const draw=()=>{
-    const W=c.width=c.parentElement.clientWidth-32,H=c.height=160;
-    ctx.clearRect(0,0,W,H);t+=.015;
-    const cx=W/2,cy=H/2,R=Math.min(W,H)/2-22;
-    const v1=labels.map((_,i)=>.5+.38*Math.sin(t+i*.8));
-    const v2=labels.map((_,i)=>.42+.3*Math.cos(t*.7+i));
-    for(let r=1;r<=4;r++){ctx.beginPath();for(let i=0;i<n;i++){const a=i/n*Math.PI*2-Math.PI/2,d=r/4*R;i===0?ctx.moveTo(cx+Math.cos(a)*d,cy+Math.sin(a)*d):ctx.lineTo(cx+Math.cos(a)*d,cy+Math.sin(a)*d)}ctx.closePath();ctx.strokeStyle='rgba(100,116,139,.14)';ctx.lineWidth=1;ctx.stroke()}
-    for(let i=0;i<n;i++){const a=i/n*Math.PI*2-Math.PI/2;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(a)*R,cy+Math.sin(a)*R);ctx.strokeStyle='rgba(100,116,139,.18)';ctx.lineWidth=1;ctx.stroke()}
-    [v1,v2].forEach((vals,vi)=>{
-      ctx.beginPath();vals.forEach((v,i)=>{const a=i/n*Math.PI*2-Math.PI/2,d=v*R;i===0?ctx.moveTo(cx+Math.cos(a)*d,cy+Math.sin(a)*d):ctx.lineTo(cx+Math.cos(a)*d,cy+Math.sin(a)*d)});ctx.closePath();
-      if(vi===0){ctx.fillStyle='rgba(0,245,255,.1)';ctx.fill();ctx.strokeStyle='rgba(0,245,255,.7)'}else{ctx.fillStyle='rgba(251,191,36,.08)';ctx.fill();ctx.strokeStyle='rgba(251,191,36,.55)'}
-      ctx.lineWidth=1.5;ctx.stroke()
-    });
-    ctx.fillStyle='rgba(148,163,184,.6)';ctx.font="9px 'IBM Plex Mono'";ctx.textAlign='center';
-    labels.forEach((l,i)=>{const a=i/n*Math.PI*2-Math.PI/2;ctx.fillText(l,cx+Math.cos(a)*(R+15),cy+Math.sin(a)*(R+15)+4)});
-    ctx.textAlign='left';requestAnimationFrame(draw)
-  };draw()
-})();
+    // ── HERO CANVAS ──────────────────────────────────
+    (() => {
+      const c = document.getElementById('heroCanvas'), ctx = c.getContext('2d');
+      let W, H, pts = [];
+      const resize = () => { W = c.width = c.offsetWidth; H = c.height = c.offsetHeight };
+      resize(); window.addEventListener('resize', () => { resize(); init() });
+      const init = () => { pts = []; const n = Math.floor(W * H / 7000); for (let i = 0; i < n; i++)pts.push({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .35, vy: (Math.random() - .5) * .35, r: Math.random() * 1.5 + .5, a: Math.random() * Math.PI * 2 }) };
+      init();
+      let t = 0;
+      const draw = () => {
+        ctx.clearRect(0, 0, W, H); t += .005;
+        // Sine waves
+        [[.007, 80, 40, 'rgba(0,245,255,.055)', 0], [.012, 50, 25, 'rgba(167,139,250,.04)', 2], [.018, 35, 18, 'rgba(163,230,53,.03)', 4]].forEach(([f, a, a2, col, ph]) => {
+          ctx.beginPath(); ctx.strokeStyle = col; ctx.lineWidth = 1.5;
+          for (let x = 0; x <= W; x += 2) { const y = H / 2 + Math.sin(x * f + t + ph) * a + Math.sin(x * f * 2 + t * .7 + ph) * a2; x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y) } ctx.stroke()
+        });
+        // Connections
+        for (let i = 0; i < pts.length; i++)for (let j = i + 1; j < pts.length; j++) { const d = Math.hypot(pts[i].x - pts[j].x, pts[i].y - pts[j].y); if (d < 130) { ctx.beginPath(); ctx.strokeStyle = `rgba(0,245,255,${.1 * (1 - d / 130)})`; ctx.lineWidth = .5; ctx.moveTo(pts[i].x, pts[i].y); ctx.lineTo(pts[j].x, pts[j].y); ctx.stroke() } }
+        // Dots
+        pts.forEach(p => { p.x += p.vx; p.y += p.vy; if (p.x < 0 || p.x > W) p.vx *= -1; if (p.y < 0 || p.y > H) p.vy *= -1; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fillStyle = 'rgba(56,189,248,.55)'; ctx.fill() });
+        requestAnimationFrame(draw)
+      }; draw()
+    })();
 
-// ── BOXPLOT ───────────────────────────────────────
-(()=>{
-  const c=document.getElementById('cBox'),ctx=c.getContext('2d');
-  let t=0;
-  const groups=[
-    {l:'A',col:'rgba(0,245,255,.85)',min:.15,q1:.3,med:.45,q3:.62,max:.85},
-    {l:'B',col:'rgba(163,230,53,.85)',min:.1,q1:.28,med:.52,q3:.68,max:.88},
-    {l:'C',col:'rgba(251,191,36,.85)',min:.18,q1:.38,med:.5,q3:.64,max:.82}
-  ];
-  const draw=()=>{
-    const W=c.width=c.parentElement.clientWidth-32,H=c.height=160;
-    ctx.clearRect(0,0,W,H);t+=.008;
-    const pad=28,bw=20,gw=(W-2*pad)/groups.length;
-    groups.forEach((g,gi)=>{
-      const wb=Math.sin(t+gi)*.018,cx=pad+gw*(gi+.5);
-      const mp=v=>H-pad-(v+wb)*(H-2*pad);
-      ctx.strokeStyle=g.col.replace('.85','.4');ctx.lineWidth=1.5;
-      ctx.beginPath();ctx.moveTo(cx,mp(g.min));ctx.lineTo(cx,mp(g.q1));ctx.moveTo(cx,mp(g.q3));ctx.lineTo(cx,mp(g.max));ctx.moveTo(cx-8,mp(g.min));ctx.lineTo(cx+8,mp(g.min));ctx.moveTo(cx-8,mp(g.max));ctx.lineTo(cx+8,mp(g.max));ctx.stroke();
-      const gg=ctx.createLinearGradient(0,mp(g.q3),0,mp(g.q1));gg.addColorStop(0,g.col.replace('.85','.15'));gg.addColorStop(1,g.col.replace('.85','.28'));
-      ctx.fillStyle=gg;ctx.fillRect(cx-bw/2,mp(g.q3),bw,mp(g.q1)-mp(g.q3));ctx.strokeStyle=g.col;ctx.lineWidth=1.5;ctx.strokeRect(cx-bw/2,mp(g.q3),bw,mp(g.q1)-mp(g.q3));
-      ctx.beginPath();ctx.moveTo(cx-bw/2,mp(g.med));ctx.lineTo(cx+bw/2,mp(g.med));ctx.strokeStyle=g.col;ctx.lineWidth=2.5;ctx.stroke();
-      ctx.fillStyle='rgba(148,163,184,.55)';ctx.font="9px 'IBM Plex Mono'";ctx.textAlign='center';ctx.fillText('Grupo '+g.l,cx,H-6);ctx.textAlign='left'
-    });
-    requestAnimationFrame(draw)
-  };draw()
-})();
+    // ── NORMAL DIST ───────────────────────────────────
+    (() => {
+      const c = document.getElementById('cNormal'), ctx = c.getContext('2d');
+      let t = 0;
+      const N = (x, mu, sig) => Math.exp(-.5 * ((x - mu) / sig) ** 2) / (sig * Math.sqrt(2 * Math.PI));
+      const draw = () => {
+        const W = c.width = c.parentElement.clientWidth - 32, H = c.height = 160;
+        ctx.clearRect(0, 0, W, H); t += .012;
+        const mu = W / 2 + Math.sin(t) * W * .14, sig = 38 + Math.sin(t * .7) * 10, pk = N(mu, mu, sig);
+        const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, 'rgba(0,245,255,.22)'); g.addColorStop(1, 'rgba(0,245,255,.01)');
+        ctx.beginPath(); ctx.moveTo(0, H);
+        for (let x = 0; x <= W; x++) { const y = H - (N(x, mu, sig) / pk) * (H * .82) - H * .1; x === 0 ? ctx.lineTo(x, H) : ctx.lineTo(x, y) }
+        ctx.lineTo(W, H); ctx.closePath(); ctx.fillStyle = g; ctx.fill();
+        ctx.beginPath();
+        for (let x = 0; x <= W; x++) { const y = H - (N(x, mu, sig) / pk) * (H * .82) - H * .1; x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y) }
+        ctx.strokeStyle = 'rgba(0,245,255,.85)'; ctx.lineWidth = 2; ctx.stroke();
+        // μ line
+        const my2 = H - (H * .82) - H * .1;
+        ctx.beginPath(); ctx.setLineDash([4, 4]); ctx.moveTo(mu, my2 + 10); ctx.lineTo(mu, H); ctx.strokeStyle = 'rgba(163,230,53,.55)'; ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = 'rgba(163,230,53,.8)'; ctx.font = "11px 'IBM Plex Mono'"; ctx.fillText('μ', mu + 5, my2 + 22);
+        requestAnimationFrame(draw)
+      }; draw()
+    })();
 
-// ── TIME SERIES ───────────────────────────────────
-(()=>{
-  const c=document.getElementById('cTime'),ctx=c.getContext('2d');
-  let t=0;const pts=180;
-  const draw=()=>{
-    const W=c.width=c.parentElement.clientWidth-32,H=c.height=160;
-    ctx.clearRect(0,0,W,H);t+=.018;
-    const pad=20,dw=(W-2*pad)/pts;
-    const vals=Array.from({length:pts},(_,i)=>.5+i/pts*.28+Math.sin(i*.15+t)*.18+Math.sin(i*.42+t*.32)*.07+(Math.random()-.5)*.035);
-    const trend=Array.from({length:pts},(_,i)=>.5+i/pts*.28+Math.sin(i*.15+t)*.18);
-    const bg=ctx.createLinearGradient(0,pad,0,H-pad);bg.addColorStop(0,'rgba(56,189,248,.06)');bg.addColorStop(1,'rgba(56,189,248,0)');
-    ctx.beginPath();ctx.moveTo(pad,H-pad);vals.forEach((v,i)=>ctx.lineTo(pad+i*dw,H-pad-v*(H-2*pad)));ctx.lineTo(W-pad,H-pad);ctx.closePath();ctx.fillStyle=bg;ctx.fill();
-    ctx.beginPath();vals.forEach((v,i)=>{const x=pad+i*dw,y=H-pad-v*(H-2*pad);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y)});ctx.strokeStyle='rgba(56,189,248,.9)';ctx.lineWidth=2;ctx.lineJoin='round';ctx.stroke();
-    ctx.beginPath();trend.forEach((v,i)=>{const x=pad+i*dw,y=H-pad-v*(H-2*pad);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y)});ctx.strokeStyle='rgba(163,230,53,.4)';ctx.lineWidth=1.5;ctx.setLineDash([5,5]);ctx.stroke();ctx.setLineDash([]);
-    const lv=vals[vals.length-1],lx=pad+(vals.length-1)*dw,ly=H-pad-lv*(H-2*pad);
-    ctx.beginPath();ctx.arc(lx,ly,4,0,Math.PI*2);ctx.fillStyle='var(--electric)';ctx.fill();
-    ctx.strokeStyle='rgba(0,245,255,.25)';ctx.lineWidth=9;ctx.stroke();ctx.lineWidth=1;
-    requestAnimationFrame(draw)
-  };draw()
-})();
-</script>
+    // ── SCATTER + REGRESSION ─────────────────────────
+    (() => {
+      const c = document.getElementById('cScatter'), ctx = c.getContext('2d');
+      const N = 40, pts = Array.from({ length: N }, () => { const x = Math.random(); return { x, y: .7 * x + .15 + (.5 - Math.random()) * .2, a: Math.random() * Math.PI * 2 } });
+      let t = 0;
+      const draw = () => {
+        const W = c.width = c.parentElement.clientWidth - 32, H = c.height = 280;
+        ctx.clearRect(0, 0, W, H); t += .008;
+        const pad = 30;
+        // Axes
+        ctx.strokeStyle = 'rgba(100,116,139,.3)'; ctx.lineWidth = 1; ctx.beginPath();
+        ctx.moveTo(pad, pad); ctx.lineTo(pad, H - pad); ctx.moveTo(pad, H - pad); ctx.lineTo(W - pad, H - pad); ctx.stroke();
+        // Grid
+        for (let i = 1; i < 5; i++) { ctx.beginPath(); ctx.strokeStyle = 'rgba(100,116,139,.07)'; const gy = pad + (H - 2 * pad) * i / 5; ctx.moveTo(pad, gy); ctx.lineTo(W - pad, gy); ctx.stroke() }
+        // Map points
+        const mp = pts.map(p => ({ cx: (p.x + Math.sin(t + p.a) * .012) * (W - 2 * pad) + pad, cy: H - pad - (p.y + Math.cos(t * .8 + p.a) * .008) * (H - 2 * pad) }));
+        // Regression
+        const xs = mp.map(p => (p.cx - pad) / (W - 2 * pad)), ys = mp.map(p => (H - pad - p.cy) / (H - 2 * pad));
+        const n = xs.length, sx = xs.reduce((a, v) => a + v, 0), sy = ys.reduce((a, v) => a + v, 0), sxy = xs.reduce((a, v, i) => a + v * ys[i], 0), sx2 = xs.reduce((a, v) => a + v * v, 0);
+        const b1 = (n * sxy - sx * sy) / (n * sx2 - sx * sx), b0 = (sy - b1 * sx) / n;
+        ctx.beginPath(); ctx.moveTo(pad, H - pad - b0 * (H - 2 * pad)); ctx.lineTo(W - pad, H - pad - (b0 + b1) * (H - 2 * pad));
+        ctx.strokeStyle = 'rgba(163,230,53,.75)'; ctx.lineWidth = 2; ctx.setLineDash([6, 3]); ctx.stroke(); ctx.setLineDash([]);
+        // Residuals
+        mp.forEach((p, i) => {
+          const px = (p.cx - pad) / (W - 2 * pad); const predY = H - pad - (b0 + b1 * px) * (H - 2 * pad);
+          ctx.beginPath(); ctx.moveTo(p.cx, p.cy); ctx.lineTo(p.cx, predY); ctx.strokeStyle = 'rgba(0,245,255,.12)'; ctx.lineWidth = 1; ctx.stroke()
+        });
+        // Points
+        mp.forEach(p => { ctx.beginPath(); ctx.arc(p.cx, p.cy, 4, 0, Math.PI * 2); ctx.fillStyle = 'rgba(0,245,255,.65)'; ctx.fill(); ctx.strokeStyle = 'rgba(0,245,255,.25)'; ctx.lineWidth = 6; ctx.stroke(); ctx.lineWidth = 1 });
+        ctx.fillStyle = 'rgba(100,116,139,.5)'; ctx.font = "10px 'IBM Plex Mono'"; ctx.fillText('x', W - pad + 5, H - pad + 4); ctx.fillText('y', pad - 14, pad + 4);
+        requestAnimationFrame(draw)
+      }; draw()
+    })();
+
+    // ── HISTOGRAM ─────────────────────────────────────
+    (() => {
+      const c = document.getElementById('cBar'), ctx = c.getContext('2d');
+      const bins = 12; let t = 0;
+      const tgt = Array.from({ length: bins }, () => Math.random() * .75 + .15);
+      const norm = () => { const m = Math.max(...tgt); tgt.forEach((_, i) => tgt[i] /= m) }; norm();
+      const cur = tgt.map(() => 0);
+      const draw = () => {
+        const W = c.width = c.parentElement.clientWidth - 32, H = c.height = 160;
+        ctx.clearRect(0, 0, W, H); t += .025;
+        cur.forEach((v, i) => { cur[i] = lerp(cur[i], tgt[i], .05) });
+        if (Math.random() < .003) { const i = Math.floor(Math.random() * bins); tgt[i] = Math.random() * .8 + .1; norm() }
+        const pad = 10, bw = (W - 2 * pad) / bins;
+        cur.forEach((v, i) => {
+          const x = pad + i * bw + bw * .08, bH = v * (H - pad * 2.5), y = H - pad - bH, hue = 195 + i * 11;
+          const g = ctx.createLinearGradient(0, y, 0, H - pad); g.addColorStop(0, `hsla(${hue},90%,62%,.85)`); g.addColorStop(1, `hsla(${hue},90%,40%,.2)`);
+          ctx.fillStyle = g; ctx.fillRect(x, y, bw * .84, bH);
+          ctx.fillStyle = `hsla(${hue},90%,82%,.5)`; ctx.fillRect(x, y, bw * .84, 2)
+        });
+        requestAnimationFrame(draw)
+      }; draw()
+    })();
+
+    // ── RADAR ─────────────────────────────────────────
+    (() => {
+      const c = document.getElementById('cRadar'), ctx = c.getContext('2d');
+      let t = 0;
+      const labels = ['Análise', 'Precisão', 'Método', 'Dados', 'Decisão', 'Visual'], n = labels.length;
+      const draw = () => {
+        const W = c.width = c.parentElement.clientWidth - 32, H = c.height = 160;
+        ctx.clearRect(0, 0, W, H); t += .015;
+        const cx = W / 2, cy = H / 2, R = Math.min(W, H) / 2 - 22;
+        const v1 = labels.map((_, i) => .5 + .38 * Math.sin(t + i * .8));
+        const v2 = labels.map((_, i) => .42 + .3 * Math.cos(t * .7 + i));
+        for (let r = 1; r <= 4; r++) { ctx.beginPath(); for (let i = 0; i < n; i++) { const a = i / n * Math.PI * 2 - Math.PI / 2, d = r / 4 * R; i === 0 ? ctx.moveTo(cx + Math.cos(a) * d, cy + Math.sin(a) * d) : ctx.lineTo(cx + Math.cos(a) * d, cy + Math.sin(a) * d) } ctx.closePath(); ctx.strokeStyle = 'rgba(100,116,139,.14)'; ctx.lineWidth = 1; ctx.stroke() }
+        for (let i = 0; i < n; i++) { const a = i / n * Math.PI * 2 - Math.PI / 2; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.cos(a) * R, cy + Math.sin(a) * R); ctx.strokeStyle = 'rgba(100,116,139,.18)'; ctx.lineWidth = 1; ctx.stroke() }
+        [v1, v2].forEach((vals, vi) => {
+          ctx.beginPath(); vals.forEach((v, i) => { const a = i / n * Math.PI * 2 - Math.PI / 2, d = v * R; i === 0 ? ctx.moveTo(cx + Math.cos(a) * d, cy + Math.sin(a) * d) : ctx.lineTo(cx + Math.cos(a) * d, cy + Math.sin(a) * d) }); ctx.closePath();
+          if (vi === 0) { ctx.fillStyle = 'rgba(0,245,255,.1)'; ctx.fill(); ctx.strokeStyle = 'rgba(0,245,255,.7)' } else { ctx.fillStyle = 'rgba(251,191,36,.08)'; ctx.fill(); ctx.strokeStyle = 'rgba(251,191,36,.55)' }
+          ctx.lineWidth = 1.5; ctx.stroke()
+        });
+        ctx.fillStyle = 'rgba(148,163,184,.6)'; ctx.font = "9px 'IBM Plex Mono'"; ctx.textAlign = 'center';
+        labels.forEach((l, i) => { const a = i / n * Math.PI * 2 - Math.PI / 2; ctx.fillText(l, cx + Math.cos(a) * (R + 15), cy + Math.sin(a) * (R + 15) + 4) });
+        ctx.textAlign = 'left'; requestAnimationFrame(draw)
+      }; draw()
+    })();
+
+    // ── BOXPLOT ───────────────────────────────────────
+    (() => {
+      const c = document.getElementById('cBox'), ctx = c.getContext('2d');
+      let t = 0;
+      const groups = [
+        { l: 'A', col: 'rgba(0,245,255,.85)', min: .15, q1: .3, med: .45, q3: .62, max: .85 },
+        { l: 'B', col: 'rgba(163,230,53,.85)', min: .1, q1: .28, med: .52, q3: .68, max: .88 },
+        { l: 'C', col: 'rgba(251,191,36,.85)', min: .18, q1: .38, med: .5, q3: .64, max: .82 }
+      ];
+      const draw = () => {
+        const W = c.width = c.parentElement.clientWidth - 32, H = c.height = 160;
+        ctx.clearRect(0, 0, W, H); t += .008;
+        const pad = 28, bw = 20, gw = (W - 2 * pad) / groups.length;
+        groups.forEach((g, gi) => {
+          const wb = Math.sin(t + gi) * .018, cx = pad + gw * (gi + .5);
+          const mp = v => H - pad - (v + wb) * (H - 2 * pad);
+          ctx.strokeStyle = g.col.replace('.85', '.4'); ctx.lineWidth = 1.5;
+          ctx.beginPath(); ctx.moveTo(cx, mp(g.min)); ctx.lineTo(cx, mp(g.q1)); ctx.moveTo(cx, mp(g.q3)); ctx.lineTo(cx, mp(g.max)); ctx.moveTo(cx - 8, mp(g.min)); ctx.lineTo(cx + 8, mp(g.min)); ctx.moveTo(cx - 8, mp(g.max)); ctx.lineTo(cx + 8, mp(g.max)); ctx.stroke();
+          const gg = ctx.createLinearGradient(0, mp(g.q3), 0, mp(g.q1)); gg.addColorStop(0, g.col.replace('.85', '.15')); gg.addColorStop(1, g.col.replace('.85', '.28'));
+          ctx.fillStyle = gg; ctx.fillRect(cx - bw / 2, mp(g.q3), bw, mp(g.q1) - mp(g.q3)); ctx.strokeStyle = g.col; ctx.lineWidth = 1.5; ctx.strokeRect(cx - bw / 2, mp(g.q3), bw, mp(g.q1) - mp(g.q3));
+          ctx.beginPath(); ctx.moveTo(cx - bw / 2, mp(g.med)); ctx.lineTo(cx + bw / 2, mp(g.med)); ctx.strokeStyle = g.col; ctx.lineWidth = 2.5; ctx.stroke();
+          ctx.fillStyle = 'rgba(148,163,184,.55)'; ctx.font = "9px 'IBM Plex Mono'"; ctx.textAlign = 'center'; ctx.fillText('Grupo ' + g.l, cx, H - 6); ctx.textAlign = 'left'
+        });
+        requestAnimationFrame(draw)
+      }; draw()
+    })();
+
+    // ── TIME SERIES ───────────────────────────────────
+    (() => {
+      const c = document.getElementById('cTime'), ctx = c.getContext('2d');
+      let t = 0; const pts = 180;
+      const draw = () => {
+        const W = c.width = c.parentElement.clientWidth - 32, H = c.height = 160;
+        ctx.clearRect(0, 0, W, H); t += .018;
+        const pad = 20, dw = (W - 2 * pad) / pts;
+        const vals = Array.from({ length: pts }, (_, i) => .5 + i / pts * .28 + Math.sin(i * .15 + t) * .18 + Math.sin(i * .42 + t * .32) * .07 + (Math.random() - .5) * .035);
+        const trend = Array.from({ length: pts }, (_, i) => .5 + i / pts * .28 + Math.sin(i * .15 + t) * .18);
+        const bg = ctx.createLinearGradient(0, pad, 0, H - pad); bg.addColorStop(0, 'rgba(56,189,248,.06)'); bg.addColorStop(1, 'rgba(56,189,248,0)');
+        ctx.beginPath(); ctx.moveTo(pad, H - pad); vals.forEach((v, i) => ctx.lineTo(pad + i * dw, H - pad - v * (H - 2 * pad))); ctx.lineTo(W - pad, H - pad); ctx.closePath(); ctx.fillStyle = bg; ctx.fill();
+        ctx.beginPath(); vals.forEach((v, i) => { const x = pad + i * dw, y = H - pad - v * (H - 2 * pad); i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y) }); ctx.strokeStyle = 'rgba(56,189,248,.9)'; ctx.lineWidth = 2; ctx.lineJoin = 'round'; ctx.stroke();
+        ctx.beginPath(); trend.forEach((v, i) => { const x = pad + i * dw, y = H - pad - v * (H - 2 * pad); i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y) }); ctx.strokeStyle = 'rgba(163,230,53,.4)'; ctx.lineWidth = 1.5; ctx.setLineDash([5, 5]); ctx.stroke(); ctx.setLineDash([]);
+        const lv = vals[vals.length - 1], lx = pad + (vals.length - 1) * dw, ly = H - pad - lv * (H - 2 * pad);
+        ctx.beginPath(); ctx.arc(lx, ly, 4, 0, Math.PI * 2); ctx.fillStyle = 'var(--electric)'; ctx.fill();
+        ctx.strokeStyle = 'rgba(0,245,255,.25)'; ctx.lineWidth = 9; ctx.stroke(); ctx.lineWidth = 1;
+        requestAnimationFrame(draw)
+      }; draw()
+    })();
+  </script>
 </body>
+
 </html>
