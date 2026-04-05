@@ -185,6 +185,235 @@ footer{background:var(--bg2);padding:5rem 4rem 3rem;border-top:1px solid var(--b
 .rd1{transition-delay:.15s}
 .rd2{transition-delay:.3s}
 
+/* ═══════════════════════════════════════
+   STRAT.CG SECTION
+═══════════════════════════════════════ */
+.stratcg-hero{
+  background:var(--bg);
+  position:relative;
+  overflow:hidden;
+  padding:0;
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+}
+.stratcg-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 30% 50%,rgba(124,58,237,.18) 0%,transparent 60%),
+             radial-gradient(ellipse at 80% 20%,rgba(56,189,248,.1) 0%,transparent 55%);
+  pointer-events:none;z-index:0;
+}
+.sg-hero-left{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:8rem 4rem 6rem;
+}
+.sg-logo-badge{
+  display:inline-flex;align-items:center;gap:.8rem;
+  background:rgba(124,58,237,.1);
+  border:1px solid rgba(124,58,237,.3);
+  padding:.5rem 1.2rem;
+  font-family:'IBM Plex Mono',monospace;font-size:.65rem;
+  color:var(--violet);letter-spacing:.15em;text-transform:uppercase;
+  margin-bottom:2rem;width:fit-content;
+}
+.sg-logo-badge::before{content:'';width:8px;height:8px;background:var(--violet);border-radius:50%;animation:pulse 2s infinite}
+.sg-hero-title{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(2.8rem,6vw,6rem);
+  line-height:.92;color:var(--text);
+  margin-bottom:1.5rem;
+}
+.sg-hero-title .vi{color:var(--violet);font-style:italic}
+.sg-hero-desc{
+  font-family:'IBM Plex Mono',monospace;font-size:.82rem;font-weight:300;
+  color:var(--muted);line-height:1.85;max-width:48ch;margin-bottom:2.5rem;
+}
+.sg-hero-desc strong{color:var(--text);font-weight:400}
+.sg-hero-ctas{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-violet{
+  background:var(--violet);color:var(--bg);
+  font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;
+  padding:.9rem 2rem;text-decoration:none;
+  transition:transform .2s,box-shadow .2s;
+}
+.btn-violet:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(167,139,250,.45)}
+.btn-violet-outline{
+  border:1px solid rgba(167,139,250,.4);color:var(--violet);
+  font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;
+  padding:.9rem 2rem;text-decoration:none;
+  transition:background .2s,color .2s;
+}
+.btn-violet-outline:hover{background:rgba(167,139,250,.1)}
+.sg-hero-right{
+  position:relative;overflow:hidden;
+}
+.sg-hero-img{
+  width:100%;height:100%;object-fit:cover;object-position:center top;
+  filter:brightness(.85) saturate(1.1);
+}
+.sg-hero-right::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,var(--bg) 0%,transparent 30%),
+             linear-gradient(180deg,transparent 60%,var(--bg) 100%);
+}
+.sg-pillars{
+  position:absolute;bottom:2rem;right:2rem;left:auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:2px;width:340px;
+  z-index:10;
+}
+.sg-pillar{
+  background:rgba(8,13,26,.85);
+  border:1px solid rgba(124,58,237,.2);
+  backdrop-filter:blur(10px);
+  padding:1rem 1.2rem;
+}
+.sg-pillar-icon{font-size:.9rem;margin-bottom:.4rem;display:block}
+.sg-pillar-t{font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:600;color:var(--text);margin-bottom:.2rem}
+.sg-pillar-s{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:300;color:var(--muted);line-height:1.4}
+
+/* STRAT.CG sections */
+.sg-section{padding:7rem 4rem;background:var(--bg2)}
+.sg-section.alt{background:var(--bg)}
+.sg-section.dark{background:var(--surface2)}
+.sg-label{font-family:'IBM Plex Mono',monospace;font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--violet);margin-bottom:1rem;display:flex;align-items:center;gap:1rem}
+.sg-label::before{content:'';width:32px;height:1px;background:var(--violet)}
+.sg-h2{font-family:'DM Serif Display',serif;font-size:clamp(2rem,4vw,3.5rem);line-height:1.05;color:var(--text);margin-bottom:1rem}
+.sg-h2 em{color:var(--violet);font-style:italic}
+.sg-p{font-family:'IBM Plex Mono',monospace;font-size:.82rem;font-weight:300;color:var(--muted);line-height:1.9;max-width:60ch}
+
+/* About split */
+.sg-about{background:var(--bg);display:grid;grid-template-columns:1fr 1fr;padding:0}
+.sg-about-left{padding:7rem 4rem;background:var(--surface)}
+.sg-about-left::after{content:'';display:none}
+.sg-about-right{padding:7rem 4rem}
+.sg-photo{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top;filter:brightness(.9) saturate(1.1);margin-bottom:2rem}
+.sg-about-name{font-family:'DM Serif Display',serif;font-size:1.8rem;color:var(--text);margin-bottom:.3rem}
+.sg-about-role{font-family:'IBM Plex Mono',monospace;font-size:.7rem;font-weight:400;color:var(--violet);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.5rem}
+.sg-about-body{font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:300;color:var(--muted);line-height:1.9;margin-bottom:1rem}
+.sg-about-body strong{color:var(--text);font-weight:400}
+.sg-about-quote{
+  font-family:'DM Serif Display',serif;font-style:italic;font-size:1.15rem;
+  color:var(--text);line-height:1.6;
+  border-left:2px solid var(--violet);padding-left:1.5rem;
+  margin:2rem 0;
+}
+
+/* Capabilities (Sensing/Seizing/Transforming) */
+.sg-caps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-top:4rem}
+.sg-cap{
+  background:var(--surface);border:1px solid var(--border);
+  padding:3rem 2.5rem;position:relative;overflow:hidden;
+  cursor:default;transition:border-color .3s,transform .25s;
+}
+.sg-cap:hover{border-color:var(--violet);transform:translateY(-4px)}
+.sg-cap::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--violet),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.sg-cap:hover::before{opacity:1}
+.sg-cap-num{font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--dim);letter-spacing:.2em;margin-bottom:1.2rem}
+.sg-cap-icon{font-size:1.8rem;margin-bottom:1rem;display:block}
+.sg-cap-title{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:.3rem;font-style:italic}
+.sg-cap-sub{font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:600;color:var(--violet);letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem}
+.sg-cap-body{font-family:'IBM Plex Mono',monospace;font-size:.72rem;font-weight:300;color:var(--muted);line-height:1.75}
+
+/* Modules */
+.sg-modules{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:4rem}
+.sg-mod{
+  background:var(--surface2);border:1px solid var(--border);
+  padding:2.5rem 2rem;transition:border-color .3s,background .3s;
+}
+.sg-mod:hover{border-color:var(--violet);background:var(--surface)}
+.sg-mod-num{
+  font-family:'DM Serif Display',serif;font-size:3rem;
+  color:rgba(167,139,250,.15);line-height:1;margin-bottom:1rem;
+}
+.sg-mod-title{font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.8rem;line-height:1.3}
+.sg-mod-body{font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:300;color:var(--muted);line-height:1.7}
+
+/* Deliverables */
+.sg-delivs{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:4rem}
+.sg-deliv{
+  background:var(--surface);border:1px solid var(--border);
+  padding:2.5rem 2rem;transition:border-color .3s,transform .25s;
+}
+.sg-deliv:hover{border-color:rgba(167,139,250,.5);transform:translateY(-3px)}
+.sg-deliv-icon{font-size:1.2rem;margin-bottom:1rem;display:block}
+.sg-deliv-title{font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.6rem}
+.sg-deliv-body{font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:300;color:var(--muted);line-height:1.7}
+.sg-deliv.wide{grid-column:span 1}
+
+/* Results */
+.sg-results{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:3rem}
+.sg-result{
+  background:var(--surface2);border:1px solid var(--border);
+  padding:2.5rem;transition:border-color .3s}
+.sg-result:hover{border-color:var(--violet)}
+.sg-result-title{font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:700;color:var(--violet);margin-bottom:.7rem}
+.sg-result-body{font-family:'IBM Plex Mono',monospace;font-size:.72rem;font-weight:300;color:var(--muted);line-height:1.75}
+
+/* CTA strip */
+.sg-cta-strip{
+  background:linear-gradient(135deg,#0d0720 0%,#12063e 50%,#060b1f 100%);
+  border-top:1px solid rgba(167,139,250,.2);
+  border-bottom:1px solid rgba(167,139,250,.2);
+  padding:6rem 4rem;text-align:center;position:relative;overflow:hidden;
+}
+.sg-cta-strip::before{
+  content:'STRAT.CG';
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(5rem,15vw,16rem);
+  color:rgba(167,139,250,.04);
+  white-space:nowrap;pointer-events:none;user-select:none;
+}
+.sg-cta-strip .sg-h2{font-size:clamp(2rem,4vw,3.5rem);position:relative;z-index:1}
+.sg-cta-strip .sg-p{margin:1.5rem auto 3rem;position:relative;z-index:1;max-width:50ch;text-align:center}
+.sg-cta-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative;z-index:1}
+
+/* Diretrizes timeline */
+.sg-timeline{margin-top:4rem;display:flex;flex-direction:column;gap:0}
+.sg-tline-item{
+  display:grid;grid-template-columns:120px 1fr;gap:3rem;
+  padding:2.5rem 0;border-bottom:1px solid var(--border);
+  transition:padding-left .2s;
+}
+.sg-tline-item:hover{padding-left:1rem}
+.sg-tline-item:last-child{border-bottom:none}
+.sg-tline-label{
+  font-family:'DM Serif Display',serif;font-size:2.5rem;
+  color:rgba(167,139,250,.2);line-height:1;
+  align-self:flex-start;padding-top:.2rem;
+  font-style:italic;
+}
+.sg-tline-content{}
+.sg-tline-title{font-family:'Outfit',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:.7rem}
+.sg-tline-body{font-family:'IBM Plex Mono',monospace;font-size:.75rem;font-weight:300;color:var(--muted);line-height:1.8}
+
+/* Gallery slider */
+.sg-gallery{margin-top:4rem;display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.sg-gallery-img{
+  aspect-ratio:3/4;object-fit:cover;width:100%;
+  filter:brightness(.8) saturate(1.1);
+  transition:filter .3s,transform .3s;cursor:none;
+}
+.sg-gallery-img:hover{filter:brightness(1) saturate(1.2);transform:scale(1.02)}
+.sg-gallery-item{overflow:hidden;position:relative}
+.sg-gallery-item::after{
+  content:attr(data-caption);
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent,rgba(5,8,16,.92));
+  color:var(--muted);
+  font-family:'IBM Plex Mono',monospace;font-size:.62rem;
+  padding:1.5rem 1rem .8rem;
+  opacity:0;transition:opacity .3s;
+}
+.sg-gallery-item:hover::after{opacity:1}
+
 @media(max-width:960px){
   nav{padding:1rem 1.5rem}
   .nav-links{display:none}
@@ -194,6 +423,17 @@ footer{background:var(--bg2);padding:5rem 4rem 3rem;border-top:1px solid var(--b
   .about-section{grid-template-columns:1fr}
   .about-left,.about-right{padding:5rem 2rem}
   .estab-inner{grid-template-columns:1fr;gap:3rem}
+  .sg-section,.sg-cta-strip{padding:5rem 2rem}
+  .stratcg-hero{grid-template-columns:1fr;min-height:auto}
+  .sg-hero-left{padding:8rem 2rem 4rem}
+  .sg-hero-right{min-height:50vw}
+  .sg-about{grid-template-columns:1fr}
+  .sg-about-left,.sg-about-right{padding:4rem 2rem}
+  .sg-caps,.sg-modules,.sg-results,.sg-gallery{grid-template-columns:1fr}
+  .sg-delivs{grid-template-columns:1fr}
+  .sg-pillars{display:none}
+  .sg-tline-item{grid-template-columns:1fr}
+  .sg-tline-label{font-size:1.5rem}
   .hero-stats{display:none}
   .estab-section,.res-section{padding:5rem 2rem}
   footer{padding:3rem 2rem}
@@ -214,6 +454,7 @@ footer{background:var(--bg2);padding:5rem 4rem 3rem;border-top:1px solid var(--b
     <li><a href="#hub">Hub</a></li>
     <li><a href="#sobre">Sobre</a></li>
     <li><a href="#estabraco">Estabraço</a></li>
+    <li><a href="#stratcg" style="color:var(--violet)">STRAT.CG</a></li>
   </ul>
   <a class="nav-btn" href="http://lattes.cnpq.br/8948545220815883" target="_blank">Lattes →</a>
 </nav>
@@ -480,6 +721,298 @@ footer{background:var(--bg2);padding:5rem 4rem 3rem;border-top:1px solid var(--b
   </div>
 </section>
 
+<!-- ═══════════════════════════════════════════════════
+     STRAT.CG — Programa de Convivência Empresarial
+════════════════════════════════════════════════════ -->
+
+<!-- HERO STRAT.CG -->
+<section class="stratcg-hero" id="stratcg">
+  <div class="sg-hero-left">
+    <div class="sg-logo-badge reveal"><span></span>Programa Corporativo · Prof. Jairan Dionizio</div>
+    <h2 class="sg-hero-title reveal">
+      <span class="vi">STRAT.CG</span><br>
+      Convivência<br>
+      Estratégica<br>para Resultados
+    </h2>
+    <p class="sg-hero-desc reveal">
+      Programa estruturado para o desenvolvimento de <strong>capacidades dinâmicas organizacionais</strong> por meio da construção e fortalecimento das relações estratégicas entre consultores e gestores no ambiente corporativo.
+    </p>
+    <div class="sg-hero-ctas reveal">
+      <a class="btn-violet" href="#sg-sobre">Conheça o Programa</a>
+      <a class="btn-violet-outline" href="#sg-cta">Fale com Jairan</a>
+    </div>
+  </div>
+  <div class="sg-hero-right">
+    <img class="sg-hero-img" src="/mnt/user-data/uploads/1_Prof-Jairan-Dionizio.png" alt="Prof. Jairan Dionizio — STRAT.CG">
+    <div class="sg-pillars">
+      <div class="sg-pillar">
+        <span class="sg-pillar-icon">👁</span>
+        <div class="sg-pillar-t">Percepção</div>
+        <div class="sg-pillar-s">Identificar oportunidades e sinais do mercado</div>
+      </div>
+      <div class="sg-pillar">
+        <span class="sg-pillar-icon">⚡</span>
+        <div class="sg-pillar-t">Mobilização</div>
+        <div class="sg-pillar-s">Alocar recursos e capturar oportunidades</div>
+      </div>
+      <div class="sg-pillar">
+        <span class="sg-pillar-icon">🔄</span>
+        <div class="sg-pillar-t">Transformação</div>
+        <div class="sg-pillar-s">Reconfigurar capacidades para competir</div>
+      </div>
+      <div class="sg-pillar" style="border-color:rgba(167,139,250,.4)">
+        <span class="sg-pillar-icon">🤝</span>
+        <div class="sg-pillar-t" style="color:var(--violet)">Relação Estratégica</div>
+        <div class="sg-pillar-s">Fortalecer vínculo consultor–gestor</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE O MENTOR -->
+<div class="sg-about" id="sg-sobre">
+  <div class="sg-about-left">
+    <div class="reveal">
+      <img class="sg-photo" src="/mnt/user-data/uploads/3_Prof-Jairan-Dionizio-STRATCG.png" alt="Prof. Jairan Dionizio">
+    </div>
+  </div>
+  <div class="sg-about-right">
+    <div class="reveal">
+      <div class="sg-label">Mentor do Programa</div>
+      <div class="sg-about-name">Prof. Jairan Dionizio</div>
+      <div class="sg-about-role">STRAT.CG — Consultor Estratégico</div>
+      <p class="sg-about-body">
+        Jairan Dionizio é <strong>Estatístico com Mestrado em Desenvolvimento Sustentável de Processos e Produto com base em dados</strong>. Com sólida atuação em ambientes corporativos complexos e em constante transformação.
+      </p>
+      <p class="sg-about-body">
+        Com uma trajetória marcada pela escuta estratégica, facilitação de processos colaborativos e foco em resultados sustentáveis, Dionizio se destaca como um articulador entre a gestão, a consultoria e o mercado, promovendo alianças genuínas e relações de confiança.
+      </p>
+      <p class="sg-about-body">
+        Ao longo de <strong>mais de 15 anos de experiência</strong>, atuou como consultor interno e externo em empresas de médio e grande porte, participando de programas de transformação cultural, redesenho de processos e fortalecimento de competências relacionais.
+      </p>
+      <blockquote class="sg-about-quote">
+        "Como Mentor do STRAT.CG, conduzo os participantes em uma jornada prática, reflexiva e provocadora, baseada na inteligência relacional e no fortalecimento da atuação consultiva em ecossistemas corporativos."
+      </blockquote>
+    </div>
+  </div>
+</div>
+
+<!-- CAPACIDADES DINÂMICAS -->
+<section class="sg-section alt">
+  <div class="reveal">
+    <div class="sg-label">Fundamentação Teórica</div>
+    <h2 class="sg-h2">Capacidades <em>Dinâmicas</em></h2>
+    <p class="sg-p">Fundamentado no modelo de <strong style="color:var(--text)">Sensing, Seizing e Transforming</strong> de David Teece — o programa estrutura a relação consultor–gestor como mecanismo estratégico para ampliar a capacidade organizacional de perceber, mobilizar e se transformar.</p>
+  </div>
+  <div class="sg-caps reveal">
+    <div class="sg-cap">
+      <div class="sg-cap-num">01</div>
+      <span class="sg-cap-icon">🔭</span>
+      <div class="sg-cap-title">Sensing</div>
+      <div class="sg-cap-sub">Leitura do Ambiente</div>
+      <p class="sg-cap-body">Aprimoramento da leitura do ambiente interno e externo. Identificação de riscos, oportunidades e lacunas organizacionais. Comunicação e alinhamento de expectativas.</p>
+    </div>
+    <div class="sg-cap">
+      <div class="sg-cap-num">02</div>
+      <span class="sg-cap-icon">⚙️</span>
+      <div class="sg-cap-title">Seizing</div>
+      <div class="sg-cap-sub">Mobilização de Recursos</div>
+      <p class="sg-cap-body">Estruturação de decisões estratégicas, priorização de iniciativas e mobilização coordenada de recursos. Liderança, governança e gestão de projetos.</p>
+    </div>
+    <div class="sg-cap">
+      <div class="sg-cap-num">03</div>
+      <span class="sg-cap-icon">🔄</span>
+      <div class="sg-cap-title">Transforming</div>
+      <div class="sg-cap-sub">Reconfiguração Organizacional</div>
+      <p class="sg-cap-body">Reconfiguração de processos, fortalecimento de rotinas estratégicas e consolidação da aprendizagem organizacional. Adaptação e renovação contínua.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DIRETRIZES DO PROGRAMA -->
+<section class="sg-section" id="sg-diretrizes">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start" class="reveal">
+    <div>
+      <div class="sg-label">Diretrizes Gerais</div>
+      <h2 class="sg-h2">Como o<br><em>Programa</em><br>funciona</h2>
+    </div>
+    <div>
+      <p class="sg-p">Sua metodologia combina <strong style="color:var(--text)">encontros híbridos</strong>, presenciais e online, integrando profundidade estratégica e flexibilidade operacional.</p>
+      <p class="sg-p" style="margin-top:1rem">Duração flexível de <strong style="color:var(--violet)">3 a 6 meses</strong>, com certificação baseada em avaliação contínua e apresentação de projetos práticos.</p>
+    </div>
+  </div>
+  <div class="sg-timeline reveal">
+    <div class="sg-tline-item">
+      <div class="sg-tline-label">①</div>
+      <div class="sg-tline-content">
+        <div class="sg-tline-title">Sessões Presenciais</div>
+        <p class="sg-tline-body">Concentram-se na construção de alinhamento, confiança e tomada de decisão estruturada. Mentorias cruzadas e dinâmicas aplicadas com simulação de desafios reais.</p>
+      </div>
+    </div>
+    <div class="sg-tline-item">
+      <div class="sg-tline-label">②</div>
+      <div class="sg-tline-content">
+        <div class="sg-tline-title">Sessões Online</div>
+        <p class="sg-tline-body">Ampliam a capacidade analítica e o acompanhamento técnico contínuo. Experiências imersivas e laboratórios de reconfiguração organizacional.</p>
+      </div>
+    </div>
+    <div class="sg-tline-item">
+      <div class="sg-tline-label">③</div>
+      <div class="sg-tline-content">
+        <div class="sg-tline-title">Certificação</div>
+        <p class="sg-tline-body">Baseada em avaliação contínua e na apresentação de projetos práticos que demonstrem a evolução nas dimensões de Sensing, Seizing e Transforming.</p>
+      </div>
+    </div>
+    <div class="sg-tline-item">
+      <div class="sg-tline-label">④</div>
+      <div class="sg-tline-content">
+        <div class="sg-tline-title">Público-Alvo</div>
+        <p class="sg-tline-body">Consultores estratégicos, gestores empresariais e organizações em fase de crescimento, reposicionamento ou consolidação estratégica que buscam profissionalizar sua governança.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARQUITETURA — 4 MÓDULOS -->
+<section class="sg-section dark">
+  <div class="reveal">
+    <div class="sg-label">Arquitetura do Programa</div>
+    <h2 class="sg-h2">4 <em>Módulos</em> Estruturados</h2>
+    <p class="sg-p">Construção progressiva de habilidades e conhecimentos essenciais à convivência consultiva e estratégica.</p>
+  </div>
+  <div class="sg-modules reveal">
+    <div class="sg-mod">
+      <div class="sg-mod-num">0</div>
+      <div class="sg-mod-title">Bases da Convivência Empresarial</div>
+      <p class="sg-mod-body">Estabelece o alinhamento de papéis e expectativas, introduzindo conceitos fundamentais para uma convivência colaborativa, apoiada por ferramentas como o Canvas de Convivência e a Roda de Estilo Relacional.</p>
+    </div>
+    <div class="sg-mod">
+      <div class="sg-mod-num">1</div>
+      <div class="sg-mod-title">Cultura Organizacional e Convivência Contextual</div>
+      <p class="sg-mod-body">Aproxima o entendimento da cultura empresarial ao perfil de convivência, investigando percepções de autoridade e colaboração para ajustar a atuação ao estilo do gestor e da equipe.</p>
+    </div>
+    <div class="sg-mod">
+      <div class="sg-mod-num">2</div>
+      <div class="sg-mod-title">Comunicação Consultiva e Alinhamento de Expectativas</div>
+      <p class="sg-mod-body">Explora a comunicação como instrumento estratégico, enfatizando feedback construtivo, escuta ativa e pactuações transparentes de metas e entregas.</p>
+    </div>
+    <div class="sg-mod">
+      <div class="sg-mod-num">3</div>
+      <div class="sg-mod-title">Inteligência Emocional e Convivência sob Pressão</div>
+      <p class="sg-mod-body">Desenvolve competências emocionais para lidar com pressão, identificando estilos emocionais e aplicando técnicas de autogestão para reduzir conflitos e ruídos.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ENTREGÁVEIS -->
+<section class="sg-section alt">
+  <div class="reveal">
+    <div class="sg-label">Entregáveis e Recursos</div>
+    <h2 class="sg-h2">O que você <em>recebe</em></h2>
+    <p class="sg-p">Recursos e entregáveis cuidadosamente elaborados para potencializar a aplicação dos conceitos e o monitoramento das interações.</p>
+  </div>
+  <div class="sg-delivs reveal">
+    <div class="sg-deliv">
+      <span class="sg-deliv-icon" style="color:var(--violet)">🗺</span>
+      <div class="sg-deliv-title">Mapa Relacional Consultor-Gestor</div>
+      <p class="sg-deliv-body">Diagrama detalhado que representa as conexões, influências e pontos de interação entre as partes, facilitando a visualização dos relacionamentos essenciais.</p>
+    </div>
+    <div class="sg-deliv">
+      <span class="sg-deliv-icon" style="color:var(--cyan)">📓</span>
+      <div class="sg-deliv-title">Diário de Convivência Empresarial</div>
+      <p class="sg-deliv-body">Ferramenta de registro contínuo das interações e reflexões, promovendo o autoconhecimento e a identificação de áreas para melhoria.</p>
+    </div>
+    <div class="sg-deliv">
+      <span class="sg-deliv-icon" style="color:var(--neon)">📊</span>
+      <div class="sg-deliv-title">Painel de Indicadores de Relacionamento</div>
+      <p class="sg-deliv-body">Dashboard com dados quantitativos e qualitativos sobre a qualidade da convivência, a evolução dos acordos e os impactos gerados.</p>
+    </div>
+    <div class="sg-deliv">
+      <span class="sg-deliv-icon" style="color:var(--amber)">📋</span>
+      <div class="sg-deliv-title">Plano de Convivência Integrado</div>
+      <p class="sg-deliv-body">Documento conjunto elaborado por consultor e gestor que define metas, responsabilidades e estratégias para fortalecer a parceria.</p>
+    </div>
+    <div class="sg-deliv">
+      <span class="sg-deliv-icon" style="color:var(--rose)">💬</span>
+      <div class="sg-deliv-title">Guia de Conversas Estratégicas</div>
+      <p class="sg-deliv-body">Orientações para conduzir diálogos eficientes, com sugestões de frequência (mensal ou quinzenal), temas e técnicas para maximizar o alinhamento e o engajamento.</p>
+    </div>
+    <div class="sg-deliv" style="background:rgba(167,139,250,.06);border-color:rgba(167,139,250,.25)">
+      <span class="sg-deliv-icon">🏆</span>
+      <div class="sg-deliv-title" style="color:var(--violet)">Certificação</div>
+      <p class="sg-deliv-body">Certificado baseado em avaliação contínua e apresentação de projetos práticos demonstrando evolução nas três dimensões do programa.</p>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTADOS ESPERADOS -->
+<section class="sg-section">
+  <div class="reveal">
+    <div class="sg-label">Resultados Esperados</div>
+    <h2 class="sg-h2">O que muda na sua <em>organização</em></h2>
+    <p class="sg-p">A implementação do Programa STRAT.CG promove benefícios concretos para organizações e profissionais envolvidos.</p>
+  </div>
+  <div class="sg-results reveal">
+    <div class="sg-result">
+      <div class="sg-result-title">🤝 Ambiente Colaborativo e Confiável</div>
+      <p class="sg-result-body">Construção e consolidação de um ambiente colaborativo e confiável entre consultores e gestores, fortalecendo a confiança mútua e a transparência nas relações.</p>
+    </div>
+    <div class="sg-result">
+      <div class="sg-result-title">📈 Ampliação do Impacto da Consultoria</div>
+      <p class="sg-result-body">Ampliação do impacto da consultoria junto ao negócio, com foco em resultados tangíveis e alinhados às metas estratégicas da organização.</p>
+    </div>
+    <div class="sg-result">
+      <div class="sg-result-title">🔇 Redução de Ruídos e Conflitos</div>
+      <p class="sg-result-body">Redução significativa de ruídos, conflitos e resistências que possam comprometer a efetividade das parcerias e dos projetos.</p>
+    </div>
+    <div class="sg-result">
+      <div class="sg-result-title">🏛 Consolidação da Convivência Empresarial</div>
+      <p class="sg-result-body">Consolidação da convivência empresarial como peça central das estratégias de gestão e performance, promovendo a cultura de cooperação e aprendizado contínuo.</p>
+    </div>
+  </div>
+  <p class="sg-p reveal" style="margin-top:3rem;border-left:2px solid var(--violet);padding-left:1.5rem;max-width:70ch">
+    Esses resultados contribuem para uma integração mais fluida e produtiva entre consultores e gestores, fundamentando decisões com base na confiança e em dados e elevando a maturidade organizacional no trato das relações profissionais.
+  </p>
+</section>
+
+<!-- GALERIA DE MATERIAIS -->
+<section class="sg-section dark" style="padding-top:5rem;padding-bottom:5rem">
+  <div class="reveal">
+    <div class="sg-label">Material do Programa</div>
+    <h2 class="sg-h2">Conteúdo <em>Visual</em></h2>
+  </div>
+  <div class="sg-gallery reveal" style="margin-top:3rem">
+    <div class="sg-gallery-item" data-caption="Programa de Convivência Empresarial">
+      <img class="sg-gallery-img" src="/mnt/user-data/uploads/2_STRATCG-Programa-de-Convivencia-Empresarial-entre-Consultor-e-Gestor.png" alt="Programa STRAT.CG">
+    </div>
+    <div class="sg-gallery-item" data-caption="Diretrizes Gerais do STRAT.CG">
+      <img class="sg-gallery-img" src="/mnt/user-data/uploads/4_Diretrizes-Gerais-do-STRATCG.png" alt="Diretrizes STRAT.CG">
+    </div>
+    <div class="sg-gallery-item" data-caption="Arquitetura e Módulos">
+      <img class="sg-gallery-img" src="/mnt/user-data/uploads/5_Arquitetura-do-STRATCG.png" alt="Arquitetura STRAT.CG">
+    </div>
+    <div class="sg-gallery-item" data-caption="Entregáveis e Recursos Práticos">
+      <img class="sg-gallery-img" src="/mnt/user-data/uploads/6_Entregaveis-e-Recursos-Praticos-do-Programa-STRATCG.png" alt="Entregáveis STRAT.CG">
+    </div>
+    <div class="sg-gallery-item" data-caption="Resultados Esperados">
+      <img class="sg-gallery-img" src="/mnt/user-data/uploads/7_Resultados-Esperados-com-o-Programa-STRATCG.png" alt="Resultados STRAT.CG">
+    </div>
+    <div class="sg-gallery-item" data-caption="Prof. Jairan Dionizio — STRAT.CG">
+      <img class="sg-gallery-img" src="/mnt/user-data/uploads/8_Prof-Jairan-Dionizio-STRATCG.png" alt="Encerramento STRAT.CG">
+    </div>
+  </div>
+</section>
+
+<!-- CTA STRAT.CG -->
+<div class="sg-cta-strip" id="sg-cta">
+  <h2 class="sg-h2" style="color:var(--text)">Pronto para transformar<br><em>sua convivência empresarial?</em></h2>
+  <p class="sg-p" style="color:var(--muted)">O STRAT.CG não se limita à melhoria da convivência estratégica. Ele estrutura a base para <strong style="color:var(--text)">vantagem competitiva sustentável</strong> por meio da capacidade construída.</p>
+  <div class="sg-cta-actions">
+    <a class="btn-violet" href="https://br.linkedin.com/in/jairan-dionizio" target="_blank">Falar com Jairan no LinkedIn</a>
+    <a class="btn-violet-outline" href="https://jairandionizio.github.io/estabraco/contact.html" target="_blank">Formulário de Contato</a>
+  </div>
+</div>
+
 <footer>
   <div class="footer-top">
     <div>
@@ -500,6 +1033,7 @@ footer{background:var(--bg2);padding:5rem 4rem 3rem;border-top:1px solid var(--b
         <li><a href="https://jairandionizio.github.io/estabraco/material.html" target="_blank">Material de Apoio</a></li>
         <li><a href="https://jairandionizio.github.io/estabraco/M&A.html" target="_blank">M&amp;A Multicritério</a></li>
         <li><a href="https://classroom.google.com/c/NTM2MTUyODExNTJa" target="_blank">Sala de Aula</a></li>
+        <li><a href="#stratcg" style="color:var(--violet)">STRAT.CG →</a></li>
       </ul>
     </div>
     <div class="footer-col">
